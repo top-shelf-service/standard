@@ -1,0 +1,171 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Decision Tree Schema",
+  "description": "JSON Schema for Top Shelf Service LLC Decision Trees",
+  "type": "object",
+  "required": ["id", "name", "version", "rootNode", "nodes"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Unique identifier for the decision tree"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (e.g., 1.0.0)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of tree purpose"
+    },
+    "rootNode": {
+      "type": "string",
+      "description": "ID of the root node to start evaluation"
+    },
+    "nodes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "oneOf": [
+          { "$ref": "#/definitions/decisionNode" },
+          { "$ref": "#/definitions/compositeNode" },
+          { "$ref": "#/definitions/actionNode" },
+          { "$ref": "#/definitions/referenceNode" },
+          { "$ref": "#/definitions/transformNode" }
+        ]
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "owner": { "type": "string" },
+        "effectiveDate": { "type": "string", "format": "date" },
+        "reviewDate": { "type": "string", "format": "date" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "decisionNode": {
+      "type": "object",
+      "required": ["type", "condition", "trueBranch", "falseBranch"],
+      "properties": {
+        "type": { "const": "decision" },
+        "condition": {
+          "type": "object",
+          "required": ["field", "operator", "value"],
+          "properties": {
+            "field": { "type": "string" },
+            "operator": {
+              "enum": ["==", "!=", ">", ">=", "<", "<=", "in", "not_in", "contains", "matches", "exists", "before", "after", "between"]
+            },
+            "value": {},
+            "unit": { "type": "string" }
+          }
+        },
+        "trueBranch": { "type": "string" },
+        "falseBranch": { "type": "string" },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "description": { "type": "string" },
+            "owner": { "type": "string" }
+          }
+        }
+      }
+    },
+    "compositeNode": {
+      "type": "object",
+      "required": ["type", "logic", "conditions", "trueBranch", "falseBranch"],
+      "properties": {
+        "type": { "const": "composite" },
+        "logic": { "enum": ["AND", "OR"] },
+        "conditions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["field", "operator", "value"],
+            "properties": {
+              "field": { "type": "string" },
+              "operator": { "type": "string" },
+              "value": {}
+            }
+          }
+        },
+        "trueBranch": { "type": "string" },
+        "falseBranch": { "type": "string" }
+      }
+    },
+    "actionNode": {
+      "type": "object",
+      "required": ["type", "action"],
+      "properties": {
+        "type": { "const": "action" },
+        "action": {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "enum": ["approve", "reject", "escalate", "continue", "defer"]
+            },
+            "actor": { "type": "string" },
+            "reason": { "type": "string" },
+            "level": { "type": "integer", "minimum": 0, "maximum": 5 },
+            "role": { "type": "string" },
+            "priority": { "enum": ["low", "medium", "high", "critical"] }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "description": { "type": "string" }
+          }
+        }
+      }
+    },
+    "referenceNode": {
+      "type": "object",
+      "required": ["type", "treeId", "onSuccess", "onFailure"],
+      "properties": {
+        "type": { "const": "reference" },
+        "treeId": { "type": "string" },
+        "onSuccess": { "type": "string" },
+        "onFailure": { "type": "string" }
+      }
+    },
+    "transformNode": {
+      "type": "object",
+      "required": ["type", "transformations", "next"],
+      "properties": {
+        "type": { "const": "transform" },
+        "transformations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["target"],
+            "properties": {
+              "target": { "type": "string" },
+              "source": { "type": "string" },
+              "function": { "type": "string" },
+              "inputs": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "next": { "type": "string" }
+      }
+    }
+  }
+}
