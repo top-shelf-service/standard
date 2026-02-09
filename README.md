@@ -15,6 +15,9 @@ This repository contains the foundational standards, governance frameworks, desi
 standard/
 ├── LICENSE                 # Proprietary license
 ├── README.md              # This file
+├── brand/                 # Brand UI patterns and templates
+│   ├── topshelf.css       # Complete UI component stylesheet (ts-* classes)
+│   └── ui-usage.md        # Copy/paste page templates and patterns
 ├── design-system/         # Brand design system and UI standards
 │   ├── css/
 │   │   └── variables.css  # Dark-mode CSS variables
@@ -74,6 +77,20 @@ Structured framework for routing decisions through organizational hierarchies:
 - Complete audit trails
 
 📖 [Read more about Escalation Rules](governance/escalation-rules.md)
+
+## Brand UI System
+
+Complete UI pattern library with copy/paste templates for building consistent, on-brand interfaces:
+
+**Features:**
+- Pre-built page templates (Dashboard, List, Detail, Form, Wizard)
+- Navigation patterns (Topbar, Sidebar, Dropdowns)
+- Complete component library (`ts-*` utility classes)
+- Dark-mode design with cyan/purple/green brand colors
+- Fully responsive and accessible (WCAG AA)
+- Framework-agnostic HTML/CSS
+
+📖 [View UI Templates](brand/ui-usage.md) | [Component Stylesheet](brand/topshelf.css)
 
 ## Design System
 
