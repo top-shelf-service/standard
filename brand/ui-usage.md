@@ -976,7 +976,7 @@ Example structure (framework-agnostic):
 
 ### Not Allowed to Vary Without Updating the Standard
 
-❌ **Fonts** (Montserrat headers + Inter body)  
+❌ **Fonts** (Space Grotesk headers + Inter body)  
 ❌ **Base palette** (cyan/purple/green brand colors, navy backgrounds)  
 ❌ **Core components** (button/card/input/list structure)  
 ❌ **Focus behavior** (cyan outline with glow)  
