@@ -12,32 +12,32 @@
    * ======================================== */
   
   /* Brand Colors */
-  --color-brand-primary: #00D9FF;      /* Bright Cyan - Primary brand color */
-  --color-brand-secondary: #7B61FF;    /* Deep Purple - Secondary accent */
-  --color-brand-tertiary: #00FFA3;     /* Bright Green - Success/approval */
+  --color-brand-primary: #4A7C59;      /* Muted Green - Primary brand color */
+  --color-brand-secondary: #5A8C6B;    /* Light Green - Secondary accent */
+  --color-brand-tertiary: #3D6549;     /* Dark Green - Success/approval */
   
   /* Background Colors */
-  --color-bg-primary: #0A0E1A;         /* Deep Navy - Main background */
-  --color-bg-secondary: #131829;       /* Dark Blue - Secondary surfaces */
-  --color-bg-tertiary: #1C2333;        /* Lighter Blue - Elevated surfaces */
-  --color-bg-elevated: #242D42;        /* Lightest - Cards, modals */
+  --color-bg-primary: #1A1D23;         /* Charcoal - Main background */
+  --color-bg-secondary: #252A31;       /* Dark Slate - Secondary surfaces */
+  --color-bg-tertiary: #2E3440;        /* Slate - Elevated surfaces */
+  --color-bg-elevated: #353C47;        /* Light Slate - Cards, modals */
   
   /* Text Colors */
   --color-text-primary: #FFFFFF;       /* Pure White - Primary text */
-  --color-text-secondary: #B8C5DB;     /* Light Blue Gray - Secondary text */
-  --color-text-tertiary: #7A8AA3;      /* Medium Blue Gray - Tertiary text */
-  --color-text-disabled: #4A5468;      /* Dark Gray - Disabled text */
+  --color-text-secondary: #B0B8C3;     /* Light Gray - Secondary text */
+  --color-text-tertiary: #8A929E;      /* Medium Gray - Tertiary text */
+  --color-text-disabled: #5A616D;      /* Dark Gray - Disabled text */
   
   /* Semantic Colors */
-  --color-success: #00FFA3;            /* Green - Success states */
-  --color-warning: #FFB800;            /* Amber - Warning states */
-  --color-error: #FF4757;              /* Red - Error states */
-  --color-info: #00D9FF;               /* Cyan - Informational */
+  --color-success: #4A7C59;            /* Green - Success states */
+  --color-warning: #D4A574;            /* Amber - Warning states */
+  --color-error: #C55A5A;              /* Red - Error states */
+  --color-info: #5A8C9E;               /* Blue - Informational */
   
   /* Border Colors */
-  --color-border-primary: #2C3648;     /* Subtle borders */
-  --color-border-secondary: #3D4A61;   /* Stronger borders */
-  --color-border-focus: #00D9FF;       /* Focus states */
+  --color-border-primary: #3A4149;     /* Subtle borders */
+  --color-border-secondary: #4A525B;   /* Stronger borders */
+  --color-border-focus: #4A7C59;       /* Focus states */
   
   /* ========================================
    * TYPOGRAPHY
@@ -110,11 +110,11 @@
    * SHADOWS
    * ======================================== */
   
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-  --shadow-glow: 0 0 20px rgba(0, 217, 255, 0.3);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(74, 124, 89, 0.3);
   
   /* ========================================
    * TRANSITIONS

@@ -31,6 +31,9 @@ body {
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -94,12 +97,12 @@ p {
   border: 1px solid var(--color-border-primary);
   border-radius: var(--border-radius-lg);
   padding: var(--space-xl);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   transition: box-shadow var(--transition-base);
 }
 
 .ts-card:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .ts-card h2 {
@@ -350,25 +353,25 @@ p {
 }
 
 .ts-badge-success {
-  background-color: rgba(0, 255, 163, 0.1);
+  background-color: rgba(74, 124, 89, 0.15);
   color: var(--color-success);
   border: 1px solid var(--color-success);
 }
 
 .ts-badge-warning {
-  background-color: rgba(255, 184, 0, 0.1);
+  background-color: rgba(212, 165, 116, 0.15);
   color: var(--color-warning);
   border: 1px solid var(--color-warning);
 }
 
 .ts-badge-error {
-  background-color: rgba(255, 71, 87, 0.1);
+  background-color: rgba(197, 90, 90, 0.15);
   color: var(--color-error);
   border: 1px solid var(--color-error);
 }
 
 .ts-badge-info {
-  background-color: rgba(0, 217, 255, 0.1);
+  background-color: rgba(90, 140, 158, 0.15);
   color: var(--color-info);
   border: 1px solid var(--color-info);
 }
@@ -424,8 +427,9 @@ p {
 }
 
 .ts-topbar-link-active {
-  color: var(--color-brand-primary);
-  background-color: rgba(0, 217, 255, 0.1);
+  color: var(--color-text-primary);
+  background-color: rgba(74, 124, 89, 0.15);
+  border-bottom: 2px solid var(--color-brand-primary);
 }
 
 .ts-sidebar {
@@ -462,9 +466,11 @@ p {
 }
 
 .ts-sidebar-link-active {
-  color: var(--color-brand-primary);
-  background-color: rgba(0, 217, 255, 0.1);
+  color: var(--color-text-primary);
+  background-color: rgba(74, 124, 89, 0.15);
+  border-left: 3px solid var(--color-brand-primary);
   font-weight: var(--font-weight-semibold);
+  padding-left: calc(var(--space-md) - 3px);
 }
 
 /* ========================================
