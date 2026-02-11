@@ -5,7 +5,7 @@ Copyright (c) 2026 Top Shelf Service LLC
 
 ## Overview
 
-This design system defines the visual language and UI standards for all Top Shelf Service LLC products and interfaces. It emphasizes a professional, modern dark-mode aesthetic that conveys trust, precision, and technical excellence.
+This design system defines the visual language and UI standards for all Top Shelf Service LLC products and interfaces. It emphasizes a professional, sophisticated dark-mode aesthetic with charcoal backgrounds and muted green accents that convey trust, precision, and technical excellence.
 
 ## Core Principles
 
@@ -19,23 +19,23 @@ This design system defines the visual language and UI standards for all Top Shel
 
 ### Brand Colors
 
-- **Primary (Cyan)**: `#00D9FF` - Used for primary actions, links, and brand elements
-- **Secondary (Purple)**: `#7B61FF` - Used for secondary actions and accents
-- **Tertiary (Green)**: `#00FFA3` - Used for success states and approvals
+- **Primary (Muted Green)**: `#4A7C59` - Used for primary actions, buttons, and brand elements
+- **Secondary (Light Green)**: `#5A8C6B` - Used for secondary actions and accents
+- **Tertiary (Dark Green)**: `#3D6549` - Used for success states and approvals
 
 ### Background Hierarchy
 
-- **Primary**: `#0A0E1A` - Main application background
-- **Secondary**: `#131829` - Content areas and panels
-- **Tertiary**: `#1C2333` - Elevated surfaces
-- **Elevated**: `#242D42` - Modals, cards, and prominent elements
+- **Primary**: `#1A1D23` - Main application background (charcoal)
+- **Secondary**: `#252A31` - Content areas and panels (dark slate)
+- **Tertiary**: `#2E3440` - Elevated surfaces (slate)
+- **Elevated**: `#353C47` - Modals, cards, and prominent elements (light slate)
 
 ### Semantic Colors
 
-- **Success**: `#00FFA3` - Positive outcomes, confirmations
-- **Warning**: `#FFB800` - Caution, important notices
-- **Error**: `#FF4757` - Errors, destructive actions
-- **Info**: `#00D9FF` - Informational messages
+- **Success**: `#4A7C59` - Positive outcomes, confirmations (muted green)
+- **Warning**: `#D4A574` - Caution, important notices (amber)
+- **Error**: `#C55A5A` - Errors, destructive actions (muted red)
+- **Info**: `#5A8C9E` - Informational messages (muted blue)
 
 ## Typography
 

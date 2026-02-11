@@ -977,9 +977,9 @@ Example structure (framework-agnostic):
 ### Not Allowed to Vary Without Updating the Standard
 
 ❌ **Fonts** (Space Grotesk headers + Inter body)  
-❌ **Base palette** (cyan/purple/green brand colors, navy backgrounds)  
+❌ **Base palette** (muted green accents, charcoal/slate backgrounds)  
 ❌ **Core components** (button/card/input/list structure)  
-❌ **Focus behavior** (cyan outline with glow)  
+❌ **Focus behavior** (green outline with glow)  
 ❌ **Touch targets** (minimum 40px height for interactive elements)  
 ❌ **Spacing scale** (4px baseline grid)  
 
