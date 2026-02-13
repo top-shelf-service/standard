@@ -1,0 +1,24 @@
+flowchart TD
+  START([Agent Start]) --> INTENT{Task Intent}
+  INTENT -->|coding| LOCAL[Select local]
+  INTENT -->|integration| DEV[Select dev]
+  INTENT -->|release| STAGE[Select stage]
+  INTENT -->|production-ops| PROD[Select prod]
+  INTENT -->|unknown| FAIL_INTENT[Block: unknown intent]
+
+  LOCAL --> SWITCH[Run use-env]
+  DEV --> SWITCH
+  STAGE --> SWITCH
+  PROD --> SWITCH
+
+  SWITCH --> PREFLIGHT[Run preflight]
+  PREFLIGHT --> OK{Pass?}
+  OK -->|Yes| PASS([Return PASS status])
+  OK -->|No| RETRY{Retry available?}
+  RETRY -->|Yes| PREFLIGHT2[Run preflight once]
+  PREFLIGHT2 --> OK2{Pass?}
+  OK2 -->|Yes| PASS
+  OK2 -->|No| BLOCK([Block + Escalate])
+  RETRY -->|No| BLOCK
+
+  FAIL_INTENT --> BLOCK

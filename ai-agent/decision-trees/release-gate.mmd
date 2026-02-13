@@ -1,0 +1,8 @@
+flowchart TD
+  START([Release Gate]) --> LOCAL[Run local preflight]
+  LOCAL --> STAGE[Run stage preflight]
+  STAGE --> TEST[Run orchestrator activate-test]
+  TEST --> HEALTH[Run diagnose-health]
+  HEALTH --> PASS{All pass?}
+  PASS -- Yes --> READY([Release Ready])
+  PASS -- No --> BLOCK([Release Blocked])

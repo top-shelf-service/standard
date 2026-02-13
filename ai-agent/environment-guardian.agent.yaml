@@ -1,0 +1,65 @@
+id: env-guardian
+name: Environment Guardian Agent
+version: 1.0.0
+owner: Top Shelf Service LLC
+purpose: Deterministic environment selection and preflight enforcement
+
+scope:
+  include:
+    - docs/dev/**
+    - scripts/dev/**
+    - scripts/health/no-stubs.sh
+    - .env*
+  exclude:
+    - engine/**
+    - dist/**
+
+intent_mapping:
+  coding: local
+  integration: dev
+  release: stage
+  production-ops: prod
+
+entrypoints:
+  - bash scripts/dev/agent-env-ops.sh coding
+  - bash scripts/dev/agent-env-ops.sh integration
+  - bash scripts/dev/agent-env-ops.sh release
+  - bash scripts/dev/agent-env-ops.sh production-ops
+
+checks:
+  - name: switch-environment
+    command: bash scripts/dev/use-env.sh <target>
+    blocking: true
+  - name: preflight
+    command: bash scripts/dev/preflight.sh
+    blocking: true
+  - name: no-stubs
+    command: bash scripts/health/no-stubs.sh
+    blocking: true
+
+hard_blocks:
+  - missing .env.active
+  - required env key missing
+  - no-stub policy violation
+  - intent/environment mismatch
+
+retry_policy:
+  max_retries: 1
+  mode: deterministic-retry-only
+
+output_contract:
+  required_fields:
+    - intent
+    - current_environment
+    - selected_environment
+    - change_decision
+    - checks_executed
+    - status
+    - blocking_reason
+    - next_action
+
+escalation:
+  triggers:
+    - policy conflict
+    - repeated preflight failure
+    - requested no-stub exception

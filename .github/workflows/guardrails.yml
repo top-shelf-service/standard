@@ -1,0 +1,22 @@
+name: Guardrails
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-and-no-stubs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select local environment
+        run: bash scripts/dev/use-env.sh local
+
+      - name: Run preflight
+        run: bash scripts/dev/preflight.sh

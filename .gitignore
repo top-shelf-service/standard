@@ -1,0 +1,16 @@
+# Runtime state and logs
+.agent-env-watch.pid
+.agent-env-watch.state
+.agent-env-watch.log
+.orchestrator.log
+scripts/.orchestrator.log
+
+# Environment files (keep template only)
+.env.active
+.env.local
+.env.dev
+.env.stage
+.env.prod
+
+# Build output
+dist/

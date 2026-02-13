@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "agent-env-watch-auto",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"scripts/agents/environment/watch-start.sh"
+			],
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
+			"isBackground": false,
+			"presentation": {
+				"reveal": "never",
+				"panel": "dedicated"
+			}
+		},
+		{
+			"label": "solo-release",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"scripts/dev/solo-release.sh"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "agent-env-coding",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"scripts/dev/agent-env-ops.sh",
+				"coding"
+			],
+			"isBackground": false
+		}
+	]
+}

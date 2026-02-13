@@ -1,0 +1,11 @@
+flowchart TD
+  START([Diagnose Health]) --> ENV{.env.active exists?}
+  ENV -- No --> FIX1[Switch to local]
+  ENV -- Yes --> PREFLIGHT[Run preflight]
+  FIX1 --> PREFLIGHT
+  PREFLIGHT --> PASS{Pass?}
+  PASS -- Yes --> DONE([status: pass])
+  PASS -- No --> RETRY[One deterministic retry]
+  RETRY --> PASS2{Pass?}
+  PASS2 -- Yes --> DONE
+  PASS2 -- No --> ESCALATE([status: fail, escalate])

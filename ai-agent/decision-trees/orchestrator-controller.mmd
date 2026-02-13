@@ -1,0 +1,12 @@
+flowchart TD
+  START([Orchestrator Request]) --> ACTION{Action}
+  ACTION -->|env-sync| ENV[Run env sync]
+  ACTION -->|activate-test| TEST[Run watch test matrix]
+  ACTION -->|diagnose-health| DIAG[Run diagnose-health]
+  ACTION -->|triage-fix| TRIAGE[Run deterministic triage-fix]
+  ACTION -->|unknown| BLOCK[Block]
+  ENV --> DONE([Return status])
+  TEST --> DONE
+  DIAG --> DONE
+  TRIAGE --> DONE
+  BLOCK --> DONE

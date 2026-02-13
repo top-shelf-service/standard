@@ -1,0 +1,25 @@
+id: health-triage
+name: Health Triage Agent
+version: 1.0.0
+owner: Top Shelf Service LLC
+purpose: Diagnose environment and policy health, then apply deterministic fixes
+
+entrypoints:
+  - bash scripts/agents/orchestrator/orchestrator.sh diagnose-health
+  - bash scripts/agents/orchestrator/orchestrator.sh triage-fix
+
+checks:
+  - .env.active presence and required keys
+  - preflight pass/fail
+  - no-stub policy pass/fail
+
+retry_policy:
+  max_retries: 1
+  mode: deterministic-retry-only
+
+output_contract:
+  required_fields:
+    - status
+    - reason
+    - fix_applied
+    - next_action

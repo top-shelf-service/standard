@@ -1,0 +1,22 @@
+id: release-gate
+name: Release Gate Agent
+version: 1.0.0
+owner: Top Shelf Service LLC
+purpose: Enforce release readiness via staged environment validation and health gates
+
+entrypoints:
+  - bash scripts/agents/environment/solo-release.sh
+  - bash scripts/agents/orchestrator/orchestrator.sh activate-test
+
+required_gates:
+  - local preflight
+  - stage preflight
+  - no-stub pass
+  - health diagnose pass
+
+output_contract:
+  required_fields:
+    - status
+    - checks_executed
+    - blocking_reason
+    - next_action

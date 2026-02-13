@@ -1,0 +1,28 @@
+id: orchestrator-controller
+name: Orchestrator Controller Agent
+version: 1.0.0
+owner: Top Shelf Service LLC
+purpose: Central control plane for agent execution, diagnostics, test activation, and deterministic triage/fix
+
+entrypoints:
+  - bash scripts/agents/orchestrator/orchestrator.sh env-sync <intent> <reason>
+  - bash scripts/agents/orchestrator/orchestrator.sh activate-test
+  - bash scripts/agents/orchestrator/orchestrator.sh diagnose-health
+  - bash scripts/agents/orchestrator/orchestrator.sh triage-fix
+
+controls:
+  - env-sync
+  - activate-test
+  - diagnose-health
+  - triage-fix
+
+hard_blocks:
+  - unknown action requested
+  - triage-fix retry exhausted
+
+output_contract:
+  required_fields:
+    - action
+    - status
+    - reason
+    - next_action
