@@ -3,6 +3,60 @@
 **PROPRIETARY AND CONFIDENTIAL**  
 Copyright (c) 2026 Top Shelf Service LLC
 
+## Quick Start
+
+### Prerequisites
+
+- Node.js >= 20.0.0
+- Git
+
+### Setup
+
+1. **Enable Corepack** (one-time):
+   ```bash
+   corepack enable
+   ```
+
+2. **Clone and Install**:
+   ```bash
+   git clone https://github.com/top-shelf-service/standard.git
+   cd standard
+   pnpm install
+   ```
+
+3. **Validate Setup**:
+   ```bash
+   pnpm doctor
+   ```
+
+## Package Manager Enforcement
+
+⚠️ **This repository enforces pnpm-only installation**
+
+- ✅ Use: `pnpm install`
+- ❌ Do NOT use: `npm install` or `yarn install`
+
+The preinstall hook will **block** any package manager other than pnpm@9.15.5.
+
+## Available Scripts
+
+```bash
+pnpm doctor          # Run complete health check (environment, lint, types, validation)
+pnpm lint            # Run ESLint
+pnpm format          # Auto-format all files with Prettier
+pnpm format:check    # Check formatting without modifying
+pnpm test            # Run test suite
+pnpm test:watch      # Run tests in watch mode
+pnpm build:index     # Build entity index
+pnpm build:packs     # Build data packs
+```
+
+## Documentation
+
+- 📘 [Technical Manual](docs/manuals/TECHNICAL_MANUAL.md) - Architecture and system design
+- 👨‍💻 [Developer Manual](docs/manuals/DEVELOPER_MANUAL.md) - Development workflows
+- 👥 [User Manual](docs/manuals/USER_MANUAL.md) - Usage and consumption
+
 ## Overview
 
 This repository contains the foundational standards, governance frameworks, design systems, and business logic patterns for Top Shelf Service LLC. It serves as the authoritative source for organizational policies, compliance requirements, and architectural patterns that guide all company operations.
