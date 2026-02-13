@@ -1,0 +1,19 @@
+flowchart TD
+    START([PR Opened]) --> CI[GitHub Actions CI]
+    CI --> PM_CHECK[Check packageManager = pnpm]
+    PM_CHECK --> NODE_CHECK[Check Node >=20]
+    NODE_CHECK --> DOCTOR[pnpm doctor]
+    DOCTOR --> LINT[ESLint + Prettier]
+    LINT --> TYPES[tsc --noEmit]
+    TYPES --> VALIDATION[Run all validators]
+    VALIDATION --> BUILD[Build index + packs]
+    BUILD --> TESTS[Vitest suite]
+    TESTS --> MERGE[✅ Merge to main]
+    PM_CHECK --> FAIL[❌ Reject: npm/yarn detected]
+    NODE_CHECK --> FAIL
+    DOCTOR --> FAIL
+    LINT --> FAIL
+    TYPES --> FAIL
+    VALIDATION --> FAIL
+    BUILD --> FAIL
+    TESTS --> FAIL

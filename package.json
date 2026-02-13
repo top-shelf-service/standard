@@ -1,0 +1,42 @@
+{
+  "name": "@topshelf/standard",
+  "version": "1.0.0",
+  "description": "Top Shelf Service LLC Standards Repository - Governance, Design System, and Documentation",
+  "private": true,
+  "packageManager": "pnpm@9.15.5",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "preinstall": "ts-node scripts/health/checks.ts preinstall",
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "doctor": "ts-node scripts/doctor.ts",
+    "build:index": "ts-node scripts/build-index.ts",
+    "build:packs": "ts-node engine/compiler/build-pack.ts packs",
+    "serve:retrieval": "ts-node scripts/retrieval-server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "eslint": "^9.20.0",
+    "eslint-config-prettier": "^10.0.1",
+    "glob": "^11.0.1",
+    "prettier": "^3.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
+    "vitest": "^1.1.8"
+  },
+  "keywords": [
+    "standards",
+    "governance",
+    "design-system",
+    "documentation"
+  ],
+  "author": "Top Shelf Service LLC",
+  "license": "PROPRIETARY"
+}

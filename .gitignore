@@ -27,9 +27,10 @@ out/
 *.min.css
 *.min.js
 
-# Dependencies (if tooling is added later)
+# Dependencies
 node_modules/
 vendor/
+pnpm-lock.yaml
 
 # Environment files
 .env
@@ -40,6 +41,14 @@ vendor/
 coverage/
 .nyc_output/
 
+# TypeScript
+*.tsbuildinfo
+
 # Documentation builds
 docs/build/
 site/
+
+# Generated artifacts
+dist/
+*.db
+*.sqlite
