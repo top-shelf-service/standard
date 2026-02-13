@@ -30,7 +30,6 @@ out/
 # Dependencies
 node_modules/
 vendor/
-pnpm-lock.yaml
 
 # Environment files
 .env
