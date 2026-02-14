@@ -30,23 +30,25 @@ const REQUIRED_FILES = [
 
 const REQUIRED_ENV_KEYS = ["NODE_ENV", "TOPSHELF_ENV", "API_BASE_URL", "LOG_LEVEL"];
 
+function addIssue(issues: CheckIssue[], code: string, message: string): void {
+  issues.push({ code, message });
+}
+
 function validateNodeVersion(issues: CheckIssue[]): void {
   const majorVersion = Number.parseInt(process.versions.node.split(".")[0] ?? "0", 10);
   if (majorVersion < 20) {
-    issues.push({
-      code: "node-version",
-      message: `Node ${process.versions.node} detected. Required: >=20.0.0`
-    });
+    addIssue(
+      issues,
+      "node-version",
+      `Node ${process.versions.node} detected. Required: >=20.0.0`
+    );
   }
 }
 
 function validateRequiredFiles(projectRoot: string, issues: CheckIssue[]): void {
   for (const relativePath of REQUIRED_FILES) {
     if (!fileExists(join(projectRoot, relativePath))) {
-      issues.push({
-        code: "missing-file",
-        message: `Required file not found: ${relativePath}`
-      });
+      addIssue(issues, "missing-file", `Required file not found: ${relativePath}`);
     }
   }
 }
@@ -54,10 +56,7 @@ function validateRequiredFiles(projectRoot: string, issues: CheckIssue[]): void 
 function validateEnvironmentFile(projectRoot: string, issues: CheckIssue[]): void {
   const activeEnvPath = join(projectRoot, ".env.active");
   if (!fileExists(activeEnvPath)) {
-    issues.push({
-      code: "missing-env-active",
-      message: "Missing .env.active"
-    });
+    addIssue(issues, "missing-env-active", "Missing .env.active");
     return;
   }
 
@@ -65,10 +64,7 @@ function validateEnvironmentFile(projectRoot: string, issues: CheckIssue[]): voi
   for (const key of REQUIRED_ENV_KEYS) {
     const hasEnvKey = new RegExp(`^${key}=`, "m").test(envContent);
     if (!hasEnvKey) {
-      issues.push({
-        code: "env-key-missing",
-        message: `Missing required key in .env.active: ${key}`
-      });
+      addIssue(issues, "env-key-missing", `Missing required key in .env.active: ${key}`);
     }
   }
 }
@@ -87,30 +83,22 @@ function validatePackageManager(projectRoot: string, issues: CheckIssue[]): void
     };
 
     if (packageJson.packageManager !== "pnpm@9.15.5") {
-      issues.push({
-        code: "package-manager",
-        message: "packageManager must be pnpm@9.15.5"
-      });
+      addIssue(issues, "package-manager", "packageManager must be pnpm@9.15.5");
     }
 
     if (packageJson.private !== true) {
-      issues.push({
-        code: "package-private",
-        message: "package.json must set private=true"
-      });
+      addIssue(issues, "package-private", "package.json must set private=true");
     }
 
     if (packageJson.engines?.node !== ">=20.0.0") {
-      issues.push({
-        code: "engines-node",
-        message: "package.json engines.node must be >=20.0.0"
-      });
+      addIssue(issues, "engines-node", "package.json engines.node must be >=20.0.0");
     }
   } catch (error) {
-    issues.push({
-      code: "invalid-package-json",
-      message: `Failed to parse package.json: ${error instanceof Error ? error.message : String(error)}`
-    });
+    addIssue(
+      issues,
+      "invalid-package-json",
+      `Failed to parse package.json: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 }
 
