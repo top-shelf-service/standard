@@ -48,18 +48,31 @@ export function toPosixRelativePath(root: string, absolutePath: string): string 
   return relative(root, absolutePath).split("\\").join("/");
 }
 
-export function directoryExists(path: string): boolean {
+export type PathType = "file" | "directory" | "none";
+
+export function pathExists(path: string, type?: "file" | "directory"): boolean {
   try {
-    return statSync(path).isDirectory();
+    const stats = statSync(path);
+    if (type === "file") {
+      return stats.isFile();
+    }
+    if (type === "directory") {
+      return stats.isDirectory();
+    }
+    return true;
   } catch {
     return false;
   }
 }
 
+export function directoryExists(path: string): boolean {
+  return pathExists(path, "directory");
+}
+
 export function fileExists(path: string): boolean {
-  try {
-    return statSync(path).isFile();
-  } catch {
-    return false;
-  }
+  return pathExists(path, "file");
+}
+
+export function getCurrentTimestamp(): string {
+  return new Date().toISOString();
 }

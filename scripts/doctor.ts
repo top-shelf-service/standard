@@ -1,6 +1,7 @@
 import { cwd } from "node:process";
 import { buildPack } from "../engine/compiler/build-pack.js";
 import { runAllValidations } from "../engine/validators/run-all.js";
+import { getCurrentTimestamp } from "./lib/fs-utils.js";
 
 export interface DoctorReport {
   ok: boolean;
@@ -15,7 +16,7 @@ export function runDoctor(projectRoot = cwd()): DoctorReport {
 
   return {
     ok: validationSummary.ok,
-    generatedAt: new Date().toISOString(),
+    generatedAt: getCurrentTimestamp(),
     validationsOk: validationSummary.ok,
     builtDocuments: packResult.totalDocuments
   };

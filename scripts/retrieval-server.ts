@@ -43,8 +43,15 @@ export function startRetrievalServer(projectRoot = cwd()): void {
       if (!fileExists(indexPath)) {
         buildPack(projectRoot);
       }
-      const index = JSON.parse(readTextFile(indexPath)) as RetrievalIndex;
-      return sendJson(response, 200, index);
+      try {
+        const index = JSON.parse(readTextFile(indexPath)) as RetrievalIndex;
+        return sendJson(response, 200, index);
+      } catch (error) {
+        return sendJson(response, 500, {
+          error: "Failed to parse index.json",
+          details: error instanceof Error ? error.message : String(error)
+        });
+      }
     }
 
     if (url.pathname === "/document") {

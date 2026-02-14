@@ -1,7 +1,7 @@
 import { cwd } from "node:process";
 import { join } from "node:path";
 import { buildIndex } from "../../scripts/build-index.js";
-import { readTextFile, writeJsonFile } from "../../scripts/lib/fs-utils.js";
+import { getCurrentTimestamp, writeJsonFile } from "../../scripts/lib/fs-utils.js";
 
 export interface RetrievalDocument {
   id: string;
@@ -17,26 +17,23 @@ export interface BuildPackResult {
 }
 
 export function buildPack(projectRoot = cwd()): BuildPackResult {
-  const index = buildIndex(projectRoot);
-  const documents: RetrievalDocument[] = index.records.map((record) => {
-    const absolutePath = join(projectRoot, record.path);
-    return {
-      id: record.id,
-      path: record.path,
-      title: record.title,
-      content: readTextFile(absolutePath)
-    };
-  });
+  const index = buildIndex(projectRoot, true);
+  const documents: RetrievalDocument[] = index.records.map((record) => ({
+    id: record.id,
+    path: record.path,
+    title: record.title,
+    content: record.content ?? ""
+  }));
 
   const outputPath = join(projectRoot, "dist", "retrieval-pack.json");
   writeJsonFile(outputPath, {
-    generatedAt: new Date().toISOString(),
+    generatedAt: getCurrentTimestamp(),
     totalDocuments: documents.length,
     documents
   });
 
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt: getCurrentTimestamp(),
     totalDocuments: documents.length,
     outputPath
   };

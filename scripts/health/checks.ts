@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { cwd } from "node:process";
-import { fileExists, readTextFile, writeJsonFile } from "../lib/fs-utils.js";
+import { fileExists, getCurrentTimestamp, readTextFile, writeJsonFile } from "../lib/fs-utils.js";
 
 export interface CheckIssue {
   code: string;
@@ -63,8 +63,8 @@ function validateEnvironmentFile(projectRoot: string, issues: CheckIssue[]): voi
 
   const envContent = readTextFile(activeEnvPath);
   for (const key of REQUIRED_ENV_KEYS) {
-    const isPresent = new RegExp(`^${key}=`, "m").test(envContent);
-    if (!isPresent) {
+    const hasEnvKey = new RegExp(`^${key}=`, "m").test(envContent);
+    if (!hasEnvKey) {
       issues.push({
         code: "env-key-missing",
         message: `Missing required key in .env.active: ${key}`
@@ -79,30 +79,37 @@ function validatePackageManager(projectRoot: string, issues: CheckIssue[]): void
     return;
   }
 
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
-    packageManager?: string;
-    private?: boolean;
-    engines?: { node?: string };
-  };
+  try {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+      packageManager?: string;
+      private?: boolean;
+      engines?: { node?: string };
+    };
 
-  if (packageJson.packageManager !== "pnpm@9.15.5") {
-    issues.push({
-      code: "package-manager",
-      message: "packageManager must be pnpm@9.15.5"
-    });
-  }
+    if (packageJson.packageManager !== "pnpm@9.15.5") {
+      issues.push({
+        code: "package-manager",
+        message: "packageManager must be pnpm@9.15.5"
+      });
+    }
 
-  if (packageJson.private !== true) {
-    issues.push({
-      code: "package-private",
-      message: "package.json must set private=true"
-    });
-  }
+    if (packageJson.private !== true) {
+      issues.push({
+        code: "package-private",
+        message: "package.json must set private=true"
+      });
+    }
 
-  if (packageJson.engines?.node !== ">=20.0.0") {
+    if (packageJson.engines?.node !== ">=20.0.0") {
+      issues.push({
+        code: "engines-node",
+        message: "package.json engines.node must be >=20.0.0"
+      });
+    }
+  } catch (error) {
     issues.push({
-      code: "engines-node",
-      message: "package.json engines.node must be >=20.0.0"
+      code: "invalid-package-json",
+      message: `Failed to parse package.json: ${error instanceof Error ? error.message : String(error)}`
     });
   }
 }
@@ -117,7 +124,7 @@ export function runHealthChecks(projectRoot = cwd()): CheckResult {
 
   const result: CheckResult = {
     ok: issues.length === 0,
-    generatedAt: new Date().toISOString(),
+    generatedAt: getCurrentTimestamp(),
     issues
   };
 

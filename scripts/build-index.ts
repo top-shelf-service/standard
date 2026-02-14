@@ -2,6 +2,7 @@ import { cwd } from "node:process";
 import { basename, extname, join } from "node:path";
 import {
   directoryExists,
+  getCurrentTimestamp,
   listFilesRecursive,
   readTextFile,
   toPosixRelativePath,
@@ -13,6 +14,7 @@ export interface IndexRecord {
   path: string;
   title: string;
   bytes: number;
+  content?: string;
 }
 
 export interface BuildIndexResult {
@@ -26,14 +28,14 @@ const INDEX_CANDIDATE_DIRS = ["docs", "governance", "legal", "brand", "design-sy
 
 function deriveTitle(path: string, content: string): string {
   const lines = content.split(/\r?\n/);
-  const heading = lines.find((line) => line.trim().startsWith("#"));
-  if (heading) {
-    return heading.replace(/^#+\s*/, "").trim();
+  const firstMarkdownHeading = lines.find((line) => line.trim().startsWith("#"));
+  if (firstMarkdownHeading) {
+    return firstMarkdownHeading.replace(/^#+\s*/, "").trim();
   }
   return basename(path, extname(path));
 }
 
-export function buildIndex(projectRoot = cwd()): BuildIndexResult {
+export function buildIndex(projectRoot = cwd(), includeContent = false): BuildIndexResult {
   const sourceFiles = INDEX_CANDIDATE_DIRS
     .map((directory) => join(projectRoot, directory))
     .filter((directory) => directoryExists(directory))
@@ -44,16 +46,22 @@ export function buildIndex(projectRoot = cwd()): BuildIndexResult {
     const content = readTextFile(absolutePath);
     const path = toPosixRelativePath(projectRoot, absolutePath);
 
-    return {
+    const record: IndexRecord = {
       id: path,
       path,
       title: deriveTitle(path, content),
       bytes: Buffer.byteLength(content, "utf8")
     };
+
+    if (includeContent) {
+      record.content = content;
+    }
+
+    return record;
   });
 
   const result: BuildIndexResult = {
-    generatedAt: new Date().toISOString(),
+    generatedAt: getCurrentTimestamp(),
     root: projectRoot,
     records
   };

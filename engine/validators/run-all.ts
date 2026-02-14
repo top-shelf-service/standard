@@ -2,7 +2,7 @@ import { cwd } from "node:process";
 import { join } from "node:path";
 import { buildIndex } from "../../scripts/build-index.js";
 import { runHealthChecks } from "../../scripts/health/checks.js";
-import { writeJsonFile } from "../../scripts/lib/fs-utils.js";
+import { getCurrentTimestamp, writeJsonFile } from "../../scripts/lib/fs-utils.js";
 
 export interface ValidationSummary {
   ok: boolean;
@@ -19,7 +19,7 @@ export function runAllValidations(projectRoot = cwd()): ValidationSummary {
 
   const summary: ValidationSummary = {
     ok: health.ok,
-    generatedAt: new Date().toISOString(),
+    generatedAt: getCurrentTimestamp(),
     checks: {
       health: { ok: health.ok, issues: health.issues.length },
       index: { records: index.records.length }
