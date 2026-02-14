@@ -9,11 +9,15 @@ import {
   writeJsonFile
 } from "./lib/fs-utils.js";
 
+/**
+ * Represents a single document in the index.
+ */
 export interface IndexRecord {
   id: string;
   path: string;
   title: string;
   bytes: number;
+  /** File content, only included when buildIndex is called with includeContent=true */
   content?: string;
 }
 

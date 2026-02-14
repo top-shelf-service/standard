@@ -12,5 +12,8 @@
     "build:index": "tsx scripts/build-index.ts",
     "build:packs": "tsx engine/compiler/build-pack.ts",
     "validate:all": "tsx engine/validators/run-all.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
   }
 }
