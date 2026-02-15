@@ -13,13 +13,6 @@
     "moduleResolution": "NodeNext",
     "types": ["node", "vitest/globals"]
   },
-  "include": [
-    "scripts/**/*",
-    "engine/**/*",
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["scripts/**/*", "engine/**/*", "**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

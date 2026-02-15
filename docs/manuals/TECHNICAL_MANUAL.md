@@ -19,6 +19,7 @@ Excel (Optional) → YAML (Canonical) → Compiler → dist/*.json
 ## Doctor Protocol
 
 Run `pnpm doctor` to validate:
+
 - Schema compliance
 - Broken references
 - Environmental health (pnpm, Node version)
@@ -53,6 +54,7 @@ pnpm install
 ```
 
 The preinstall hook will automatically verify:
+
 - Package manager is pnpm
 - Node.js version meets requirements
 
@@ -63,6 +65,7 @@ pnpm doctor
 ```
 
 This runs a comprehensive health check including:
+
 - Environment validation
 - Code linting
 - Type checking
@@ -116,6 +119,7 @@ Applications should consume artifacts from the `dist/` folder, not from the sour
 **Symptom**: "Invalid Package Manager" error during install
 
 **Solution**:
+
 ```bash
 corepack enable
 corepack prepare pnpm@9.15.5 --activate
@@ -138,6 +142,7 @@ pnpm install
 ## Security
 
 This repository contains proprietary information. All data is:
+
 - Private (not published to npm)
 - Version controlled
 - Access controlled via GitHub permissions
@@ -145,6 +150,7 @@ This repository contains proprietary information. All data is:
 ## Support
 
 For technical issues, consult:
+
 1. This manual
 2. Developer Manual
 3. Repository issues on GitHub

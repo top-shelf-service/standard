@@ -13,7 +13,7 @@
 /* ========================================
  * IMPORT DESIGN SYSTEM VARIABLES
  * ======================================== */
-@import url('../design-system/css/variables.css');
+@import url("../design-system/css/variables.css");
 
 /* ========================================
  * BASE STYLES
@@ -31,26 +31,55 @@ body {
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
-  background-image: 
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px),
-    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.03) 2px, rgba(255,255,255,.03) 4px);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-family-heading);
   margin: 0;
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
 }
 
-h1 { font-size: var(--font-size-4xl); }
-h2 { font-size: var(--font-size-3xl); }
-h3 { font-size: var(--font-size-2xl); }
-h4 { font-size: var(--font-size-xl); }
-h5 { font-size: var(--font-size-lg); }
-h6 { font-size: var(--font-size-base); }
+h1 {
+  font-size: var(--font-size-4xl);
+}
+h2 {
+  font-size: var(--font-size-3xl);
+}
+h3 {
+  font-size: var(--font-size-2xl);
+}
+h4 {
+  font-size: var(--font-size-xl);
+}
+h5 {
+  font-size: var(--font-size-lg);
+}
+h6 {
+  font-size: var(--font-size-base);
+}
 
 p {
   margin: 0 0 var(--space-md) 0;
@@ -522,28 +551,64 @@ p {
   justify-content: space-between;
 }
 
-.ts-gap-sm { gap: var(--space-sm); }
-.ts-gap-md { gap: var(--space-md); }
-.ts-gap-lg { gap: var(--space-lg); }
-.ts-gap-xl { gap: var(--space-xl); }
+.ts-gap-sm {
+  gap: var(--space-sm);
+}
+.ts-gap-md {
+  gap: var(--space-md);
+}
+.ts-gap-lg {
+  gap: var(--space-lg);
+}
+.ts-gap-xl {
+  gap: var(--space-xl);
+}
 
-.ts-mt-sm { margin-top: var(--space-sm); }
-.ts-mt-md { margin-top: var(--space-md); }
-.ts-mt-lg { margin-top: var(--space-lg); }
-.ts-mt-xl { margin-top: var(--space-xl); }
+.ts-mt-sm {
+  margin-top: var(--space-sm);
+}
+.ts-mt-md {
+  margin-top: var(--space-md);
+}
+.ts-mt-lg {
+  margin-top: var(--space-lg);
+}
+.ts-mt-xl {
+  margin-top: var(--space-xl);
+}
 
-.ts-mb-sm { margin-bottom: var(--space-sm); }
-.ts-mb-md { margin-bottom: var(--space-md); }
-.ts-mb-lg { margin-bottom: var(--space-lg); }
-.ts-mb-xl { margin-bottom: var(--space-xl); }
+.ts-mb-sm {
+  margin-bottom: var(--space-sm);
+}
+.ts-mb-md {
+  margin-bottom: var(--space-md);
+}
+.ts-mb-lg {
+  margin-bottom: var(--space-lg);
+}
+.ts-mb-xl {
+  margin-bottom: var(--space-xl);
+}
 
-.ts-text-center { text-align: center; }
-.ts-text-right { text-align: right; }
-.ts-text-left { text-align: left; }
+.ts-text-center {
+  text-align: center;
+}
+.ts-text-right {
+  text-align: right;
+}
+.ts-text-left {
+  text-align: left;
+}
 
-.ts-font-mono { font-family: var(--font-family-mono); }
-.ts-font-bold { font-weight: var(--font-weight-bold); }
-.ts-font-semibold { font-weight: var(--font-weight-semibold); }
+.ts-font-mono {
+  font-family: var(--font-family-mono);
+}
+.ts-font-bold {
+  font-weight: var(--font-weight-bold);
+}
+.ts-font-semibold {
+  font-weight: var(--font-weight-semibold);
+}
 
 /* ========================================
  * WIZARD/STEPPER COMPONENTS
@@ -567,7 +632,7 @@ p {
 }
 
 .ts-wizard-step::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 20px;
   left: 50%;
@@ -633,34 +698,34 @@ p {
   .ts-container {
     padding: var(--space-lg);
   }
-  
+
   .ts-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .ts-grid-2,
   .ts-grid-3,
   .ts-grid-4 {
     grid-template-columns: 1fr;
   }
-  
+
   .ts-topbar {
     padding: 0 var(--space-lg);
   }
-  
+
   .ts-sidebar {
     width: 100%;
     min-height: auto;
     border-right: none;
     border-bottom: 1px solid var(--color-border-primary);
   }
-  
+
   .ts-wizard-steps {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .ts-wizard-step::after {
     display: none;
   }

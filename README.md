@@ -13,11 +13,13 @@ Copyright (c) 2026 Top Shelf Service LLC
 ### Setup
 
 1. **Enable Corepack** (one-time):
+
    ```bash
    corepack enable
    ```
 
 2. **Clone and Install**:
+
    ```bash
    git clone https://github.com/top-shelf-service/standard.git
    cd standard
@@ -94,6 +96,7 @@ standard/
 ### 1. Engine vs Fuel Separation
 
 We maintain strict separation between reusable business logic (**Engine**) and client-specific configuration (**Fuel**). This enables:
+
 - Scalable onboarding of new clients
 - Consistent logic across all deployments
 - Configuration changes without code modifications
@@ -104,6 +107,7 @@ We maintain strict separation between reusable business logic (**Engine**) and c
 ### 2. Deterministic Behavior
 
 All business logic must be deterministic: same inputs always produce same outputs. This ensures:
+
 - Reproducible decisions for compliance
 - Reliable automated testing
 - Trustworthy audit trails
@@ -114,6 +118,7 @@ All business logic must be deterministic: same inputs always produce same output
 ### 3. Compliance-First Architecture
 
 Regulatory compliance and auditability are designed into every layer, not added as afterthoughts:
+
 - Immutable audit trails
 - Event sourcing for complete history
 - Data classification and access controls
@@ -125,6 +130,7 @@ Regulatory compliance and auditability are designed into every layer, not added 
 ### 4. Escalation Rules
 
 Structured framework for routing decisions through organizational hierarchies:
+
 - Threshold-based, risk-based, and time-based triggers
 - Clear escalation paths with timeouts
 - Dual approval for high-risk operations
@@ -137,6 +143,7 @@ Structured framework for routing decisions through organizational hierarchies:
 Complete UI pattern library with copy/paste templates for building consistent, on-brand interfaces:
 
 **Features:**
+
 - Pre-built page templates (Dashboard, List, Detail, Form, Wizard)
 - Navigation patterns (Topbar, Sidebar, Dropdowns)
 - Complete component library (`ts-*` utility classes)
@@ -151,6 +158,7 @@ Complete UI pattern library with copy/paste templates for building consistent, o
 Our brand design system provides a professional, modern dark-mode aesthetic that conveys trust and technical excellence.
 
 **Key Features:**
+
 - CSS custom properties (variables) for easy theming
 - Comprehensive color palette for dark mode
 - Typography scale and font stack
@@ -165,6 +173,7 @@ Our brand design system provides a professional, modern dark-mode aesthetic that
 Framework for building deterministic, auditable decision trees that enable AI agents to enforce business logic consistently:
 
 **Features:**
+
 - Multiple node types (decision, composite, action, reference, transform)
 - Configurable as data (JSON), not code
 - Complete execution logging
@@ -176,6 +185,7 @@ Framework for building deterministic, auditable decision trees that enable AI ag
 ## Legal and Compliance
 
 Comprehensive legal framework covering:
+
 - Intellectual property policy
 - Data protection and privacy (GDPR, CCPA, HIPAA, PCI-DSS)
 - Contractual framework (MSA, DPA, SLA, NDA)

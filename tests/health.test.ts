@@ -3,8 +3,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { existsSync } from "fs";
-import { join } from "path";
+import { existsSync, readFileSync } from "fs";
 
 describe("Repository Structure", () => {
   it("should have required configuration files", () => {
@@ -30,18 +29,17 @@ describe("Repository Structure", () => {
 });
 
 describe("Package Configuration", () => {
+  const pkg = JSON.parse(readFileSync("package.json", "utf-8"));
+
   it("should enforce pnpm as package manager", () => {
-    const pkg = require("../package.json");
     expect(pkg.packageManager).toBe("pnpm@9.15.5");
   });
 
   it("should be marked as private", () => {
-    const pkg = require("../package.json");
     expect(pkg.private).toBe(true);
   });
 
   it("should have correct Node version requirement", () => {
-    const pkg = require("../package.json");
     expect(pkg.engines.node).toBe(">=20.0.0");
   });
 });

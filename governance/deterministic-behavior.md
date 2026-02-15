@@ -10,21 +10,25 @@ Deterministic behavior is a cornerstone of Top Shelf Service LLC's engineering a
 ## Why Determinism Matters
 
 ### 1. Compliance and Auditability
+
 - Regulators require reproducible decisions
 - Audit trails must be verifiable
 - Historical analysis requires consistent behavior
 
 ### 2. Testing and Quality Assurance
+
 - Reliable automated testing
 - Reproducible bug reports
 - Predictable system behavior
 
 ### 3. Customer Trust
+
 - Consistent service delivery
 - Explainable decisions
 - Fair treatment across all clients
 
 ### 4. Debugging and Troubleshooting
+
 - Issues can be reproduced reliably
 - Root cause analysis is possible
 - Fixes can be verified
@@ -32,17 +36,19 @@ Deterministic behavior is a cornerstone of Top Shelf Service LLC's engineering a
 ## Core Principles
 
 ### Principle 1: Pure Functions
+
 Functions should be pure: same input → same output, no side effects.
 
 ✅ **DO:**
+
 ```javascript
 function calculateRiskScore(transaction) {
-  return (transaction.amount * 0.01) + 
-         (transaction.riskFactors.length * 5);
+  return transaction.amount * 0.01 + transaction.riskFactors.length * 5;
 }
 ```
 
 ❌ **DON'T:**
+
 ```javascript
 let globalCounter = 0;
 function calculateRiskScore(transaction) {
@@ -52,9 +58,11 @@ function calculateRiskScore(transaction) {
 ```
 
 ### Principle 2: Explicit Dependencies
+
 All dependencies must be explicit inputs, not hidden state.
 
 ✅ **DO:**
+
 ```javascript
 function processOrder(order, config, currentTime) {
   if (currentTime.hour >= config.businessHours.start) {
@@ -65,6 +73,7 @@ function processOrder(order, config, currentTime) {
 ```
 
 ❌ **DON'T:**
+
 ```javascript
 function processOrder(order) {
   const now = new Date(); // Hidden dependency!
@@ -76,9 +85,11 @@ function processOrder(order) {
 ```
 
 ### Principle 3: No Hidden State
+
 Avoid relying on mutable global state or external state changes.
 
 ✅ **DO:**
+
 ```javascript
 function applyDiscount(order, discountRules) {
   for (const rule of discountRules) {
@@ -91,6 +102,7 @@ function applyDiscount(order, discountRules) {
 ```
 
 ❌ **DON'T:**
+
 ```javascript
 let currentPromotion = null; // Mutable global state
 function applyDiscount(order) {
@@ -102,9 +114,11 @@ function applyDiscount(order) {
 ```
 
 ### Principle 4: Time as an Input
+
 Never use current system time implicitly; always pass time as parameter.
 
 ✅ **DO:**
+
 ```javascript
 function isBusinessHours(timestamp, config) {
   const hour = new Date(timestamp).getHours();
@@ -113,6 +127,7 @@ function isBusinessHours(timestamp, config) {
 ```
 
 ❌ **DON'T:**
+
 ```javascript
 function isBusinessHours(config) {
   const hour = new Date().getHours(); // Implicit time!
@@ -125,11 +140,13 @@ function isBusinessHours(config) {
 ### 1. Random Number Generation
 
 ❌ **Problem:**
+
 ```javascript
 const transactionId = Math.random().toString(36).substring(7);
 ```
 
 ✅ **Solution:**
+
 ```javascript
 // Use deterministic ID generation with provided seed/input
 const transactionId = generateDeterministicId(transaction.timestamp, transaction.account);
@@ -138,6 +155,7 @@ const transactionId = generateDeterministicId(transaction.timestamp, transaction
 ### 2. Current Date/Time
 
 ❌ **Problem:**
+
 ```javascript
 function isExpired(item) {
   return item.expiryDate < new Date();
@@ -145,6 +163,7 @@ function isExpired(item) {
 ```
 
 ✅ **Solution:**
+
 ```javascript
 function isExpired(item, currentTime) {
   return item.expiryDate < currentTime;
@@ -154,14 +173,16 @@ function isExpired(item, currentTime) {
 ### 3. Network Calls
 
 ❌ **Problem:**
+
 ```javascript
 async function enrichData(data) {
-  const apiResponse = await fetch('https://api.example.com/enrich');
+  const apiResponse = await fetch("https://api.example.com/enrich");
   return { ...data, ...apiResponse.data };
 }
 ```
 
 ✅ **Solution:**
+
 ```javascript
 function enrichData(data, enrichmentData) {
   // Enrichment data passed as input
@@ -172,14 +193,16 @@ function enrichData(data, enrichmentData) {
 ### 4. Database Queries
 
 ❌ **Problem:**
+
 ```javascript
 function processUser(userId) {
-  const user = db.query('SELECT * FROM users WHERE id = ?', [userId]);
+  const user = db.query("SELECT * FROM users WHERE id = ?", [userId]);
   return calculateUserScore(user);
 }
 ```
 
 ✅ **Solution:**
+
 ```javascript
 function calculateUserScore(user) {
   // User data passed as input, not queried internally
@@ -190,13 +213,15 @@ function calculateUserScore(user) {
 ### 5. Filesystem Operations
 
 ❌ **Problem:**
+
 ```javascript
 function loadConfig() {
-  return JSON.parse(fs.readFileSync('/config/settings.json'));
+  return JSON.parse(fs.readFileSync("/config/settings.json"));
 }
 ```
 
 ✅ **Solution:**
+
 ```javascript
 function processWithConfig(data, config) {
   // Config loaded once and passed as parameter
@@ -207,6 +232,7 @@ function processWithConfig(data, config) {
 ### 6. Iteration Order of Maps/Sets
 
 ❌ **Problem:**
+
 ```javascript
 function processMap(dataMap) {
   for (const [key, value] of dataMap) {
@@ -217,6 +243,7 @@ function processMap(dataMap) {
 ```
 
 ✅ **Solution:**
+
 ```javascript
 function processMap(dataMap) {
   const sortedKeys = Array.from(dataMap.keys()).sort();
@@ -229,6 +256,7 @@ function processMap(dataMap) {
 ### 7. Parallel Processing
 
 ❌ **Problem:**
+
 ```javascript
 async function processItems(items) {
   const results = await Promise.all(items.map(process));
@@ -237,6 +265,7 @@ async function processItems(items) {
 ```
 
 ✅ **Solution:**
+
 ```javascript
 async function processItems(items) {
   // Process sequentially or ensure order is maintained
@@ -261,12 +290,12 @@ class OrderProcessor {
     this.idGenerator = idGenerator;
     this.externalService = externalService;
   }
-  
+
   process(order) {
     const timestamp = this.timeProvider.now();
     const orderId = this.idGenerator.generate();
     const enriched = this.externalService.enrich(order);
-    
+
     return processOrderDeterministically(order, timestamp, orderId, enriched);
   }
 }
@@ -283,7 +312,7 @@ async function handleRequest(request) {
   const currentTime = new Date();
   const userData = await fetchUserData(request.userId);
   const config = await loadConfiguration();
-  
+
   // Core Logic (deterministic, testable)
   return processRequest(request, userData, config, currentTime);
 }
@@ -300,10 +329,10 @@ function processRequest(request, userData, config, timestamp) {
 ```javascript
 // Events captured at boundary with timestamp
 const event = {
-  type: 'OrderPlaced',
+  type: "OrderPlaced",
   orderId: generateId(),
   timestamp: new Date(),
-  data: orderData
+  data: orderData,
 };
 
 // Processing is deterministic replay of events
@@ -318,23 +347,23 @@ function processEvent(event) {
 ### Unit Tests
 
 ```javascript
-describe('calculateRiskScore', () => {
-  it('produces consistent results', () => {
-    const transaction = { amount: 1000, riskFactors: ['high_value'] };
-    
+describe("calculateRiskScore", () => {
+  it("produces consistent results", () => {
+    const transaction = { amount: 1000, riskFactors: ["high_value"] };
+
     // Run multiple times
     const result1 = calculateRiskScore(transaction);
     const result2 = calculateRiskScore(transaction);
     const result3 = calculateRiskScore(transaction);
-    
+
     expect(result1).toBe(result2);
     expect(result2).toBe(result3);
   });
-  
-  it('same inputs always produce same output', () => {
-    const transaction = { amount: 1000, riskFactors: ['high_value'] };
+
+  it("same inputs always produce same output", () => {
+    const transaction = { amount: 1000, riskFactors: ["high_value"] };
     const expected = 15; // 10 + 5
-    
+
     for (let i = 0; i < 100; i++) {
       expect(calculateRiskScore(transaction)).toBe(expected);
     }
@@ -345,19 +374,19 @@ describe('calculateRiskScore', () => {
 ### Property-Based Testing
 
 ```javascript
-test('risk score is deterministic', () => {
+test("risk score is deterministic", () => {
   fc.assert(
     fc.property(
       fc.record({
         amount: fc.integer(),
-        riskFactors: fc.array(fc.string())
+        riskFactors: fc.array(fc.string()),
       }),
       (transaction) => {
         const result1 = calculateRiskScore(transaction);
         const result2 = calculateRiskScore(transaction);
         return result1 === result2;
-      }
-    )
+      },
+    ),
   );
 });
 ```
@@ -369,10 +398,10 @@ All functions that must be deterministic should be documented:
 ```javascript
 /**
  * Calculate risk score for a transaction.
- * 
+ *
  * DETERMINISTIC: This function is deterministic and will always produce
  * the same output for the same input parameters.
- * 
+ *
  * @param {Object} transaction - Transaction data
  * @param {number} transaction.amount - Transaction amount
  * @param {string[]} transaction.riskFactors - Risk factors present
@@ -426,7 +455,7 @@ function processOrder(order, timestamp) {
     // Assert determinism by re-running
     const result1 = _processOrder(order, timestamp);
     const result2 = _processOrder(order, timestamp);
-    assert.deepEqual(result1, result2, 'processOrder must be deterministic');
+    assert.deepEqual(result1, result2, "processOrder must be deterministic");
     return result1;
   }
   return _processOrder(order, timestamp);
@@ -456,6 +485,7 @@ Log inputs and outputs for critical decisions:
 ```
 
 This enables:
+
 - Replaying decisions later
 - Verifying historical decisions
 - Detecting unintended changes in behavior

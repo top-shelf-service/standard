@@ -1,0 +1,19 @@
+# Prettier ignore file
+
+# Mermaid diagrams (no native parser support)
+*.mmd
+
+# Build artifacts
+dist/
+build/
+out/
+node_modules/
+
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Generated files
+*.min.js
+*.min.css

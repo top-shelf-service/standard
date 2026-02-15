@@ -17,7 +17,9 @@ function checkPackageManager() {
 function checkNodeVersion() {
   const currentMajor = parseInt(process.versions.node.split(".")[0], 10);
   if (currentMajor < REQUIRED_NODE_MAJOR) {
-    console.error(`\n[FATAL] Node.js version mismatch. Required: >=${REQUIRED_NODE_MAJOR}. Current: ${process.version}\n`);
+    console.error(
+      `\n[FATAL] Node.js version mismatch. Required: >=${REQUIRED_NODE_MAJOR}. Current: ${process.version}\n`,
+    );
     exit(1);
   }
 }

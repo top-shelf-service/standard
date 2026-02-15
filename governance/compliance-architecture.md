@@ -24,36 +24,36 @@ Compliance-First Architecture is a design philosophy where regulatory compliance
 Store all state changes as immutable events, not just current state.
 
 **Benefits:**
+
 - Complete audit trail
 - Ability to replay history
 - Time-travel debugging
 - Regulatory reporting
 
 **Implementation:**
+
 ```javascript
 // Event Store (immutable)
 const events = [
   {
-    eventId: 'evt_001',
-    eventType: 'OrderCreated',
-    timestamp: '2026-02-09T10:00:00Z',
-    actor: 'user:john@example.com',
-    data: { orderId: 'ord_123', amount: 1000 }
+    eventId: "evt_001",
+    eventType: "OrderCreated",
+    timestamp: "2026-02-09T10:00:00Z",
+    actor: "user:john@example.com",
+    data: { orderId: "ord_123", amount: 1000 },
   },
   {
-    eventId: 'evt_002',
-    eventType: 'OrderApproved',
-    timestamp: '2026-02-09T10:05:00Z',
-    actor: 'system:approval-engine',
-    data: { orderId: 'ord_123', approver: 'manager:jane@example.com' }
-  }
+    eventId: "evt_002",
+    eventType: "OrderApproved",
+    timestamp: "2026-02-09T10:05:00Z",
+    actor: "system:approval-engine",
+    data: { orderId: "ord_123", approver: "manager:jane@example.com" },
+  },
 ];
 
 // Current state is derived from events
 function getCurrentState(orderId) {
-  return events
-    .filter(e => e.data.orderId === orderId)
-    .reduce(applyEvent, initialState);
+  return events.filter((e) => e.data.orderId === orderId).reduce(applyEvent, initialState);
 }
 ```
 
@@ -62,39 +62,41 @@ function getCurrentState(orderId) {
 Log intended changes before executing them.
 
 **Benefits:**
+
 - Recovery from failures
 - Audit of attempted operations
 - Debugging failed transactions
 
 **Implementation:**
+
 ```javascript
 async function processTransaction(transaction) {
   // 1. Write intent log
   const logId = await writeLog({
-    type: 'INTENT',
-    operation: 'processTransaction',
+    type: "INTENT",
+    operation: "processTransaction",
     data: transaction,
-    timestamp: new Date()
+    timestamp: new Date(),
   });
-  
+
   try {
     // 2. Execute operation
     const result = await executeTransaction(transaction);
-    
+
     // 3. Write success log
     await writeLog({
-      type: 'SUCCESS',
+      type: "SUCCESS",
       logId: logId,
-      result: result
+      result: result,
     });
-    
+
     return result;
   } catch (error) {
     // 4. Write failure log
     await writeLog({
-      type: 'FAILURE',
+      type: "FAILURE",
       logId: logId,
-      error: error.message
+      error: error.message,
     });
     throw error;
   }
@@ -106,55 +108,56 @@ async function processTransaction(transaction) {
 Critical operations require multiple authorized individuals.
 
 **Implementation:**
+
 ```javascript
 class DualApprovalWorkflow {
   constructor() {
     this.pendingApprovals = new Map();
   }
-  
+
   async requestApproval(operation, requestor) {
     const approvalId = generateId();
-    
+
     this.pendingApprovals.set(approvalId, {
       operation,
       requestor,
       approvals: [],
       required: 2,
-      created: new Date()
+      created: new Date(),
     });
-    
+
     await audit.log({
-      type: 'APPROVAL_REQUESTED',
+      type: "APPROVAL_REQUESTED",
       approvalId,
       requestor,
-      operation: operation.type
+      operation: operation.type,
     });
-    
+
     return approvalId;
   }
-  
+
   async approve(approvalId, approver) {
     const pending = this.pendingApprovals.get(approvalId);
-    
+
     // Validate: approver != requestor
     if (approver === pending.requestor) {
-      throw new Error('Cannot self-approve');
+      throw new Error("Cannot self-approve");
     }
-    
+
     // Validate: no duplicate approvals
     if (pending.approvals.includes(approver)) {
-      throw new Error('Already approved by this user');
+      throw new Error("Already approved by this user");
     }
-    
+
     pending.approvals.push(approver);
-    
+
     await audit.log({
-      type: 'APPROVAL_GRANTED',
+      type: "APPROVAL_GRANTED",
       approvalId,
       approver,
-      approvalNumber: pending.approvals.length
+      approvalNumber: pending.approvals.length,
     });
-    
+
     // Execute if threshold met
     if (pending.approvals.length >= pending.required) {
       await this.execute(pending.operation);
@@ -169,54 +172,56 @@ class DualApprovalWorkflow {
 Classify data by sensitivity and enforce access controls.
 
 **Data Classification:**
+
 ```javascript
 const DataClassification = {
-  PUBLIC: 'public',           // No restrictions
-  INTERNAL: 'internal',       // Employees only
-  CONFIDENTIAL: 'confidential', // Need-to-know basis
-  RESTRICTED: 'restricted',   // PII, financial, health data
-  CRITICAL: 'critical'        // Trade secrets, keys
+  PUBLIC: "public", // No restrictions
+  INTERNAL: "internal", // Employees only
+  CONFIDENTIAL: "confidential", // Need-to-know basis
+  RESTRICTED: "restricted", // PII, financial, health data
+  CRITICAL: "critical", // Trade secrets, keys
 };
 
 const dataRules = {
   customer_email: {
     classification: DataClassification.RESTRICTED,
-    retention: '7 years',
-    encryption: 'required',
-    auditAccess: true
+    retention: "7 years",
+    encryption: "required",
+    auditAccess: true,
   },
   transaction_amount: {
     classification: DataClassification.CONFIDENTIAL,
-    retention: '10 years',
-    encryption: 'required',
-    auditAccess: true
-  }
+    retention: "10 years",
+    encryption: "required",
+    auditAccess: true,
+  },
 };
 ```
 
 **Access Control:**
+
 ```javascript
 class DataAccessController {
   canAccess(user, resource, operation) {
     // Check role-based access
     if (!user.roles.includes(resource.requiredRole)) {
-      this.auditAccessDenied(user, resource, 'INSUFFICIENT_ROLE');
+      this.auditAccessDenied(user, resource, "INSUFFICIENT_ROLE");
       return false;
     }
-    
+
     // Check data classification
     if (resource.classification === DataClassification.RESTRICTED) {
       if (!this.hasDataAccessCertification(user)) {
-        this.auditAccessDenied(user, resource, 'NO_CERTIFICATION');
+        this.auditAccessDenied(user, resource, "NO_CERTIFICATION");
         return false;
       }
     }
-    
+
     // Log all access to sensitive data
     if (resource.classification >= DataClassification.CONFIDENTIAL) {
       this.auditDataAccess(user, resource, operation);
     }
-    
+
     return true;
   }
 }
@@ -227,37 +232,36 @@ class DataAccessController {
 Audit logs cannot be modified or deleted, only appended.
 
 **Implementation:**
+
 ```javascript
 class ImmutableAuditLog {
   constructor(storage) {
     this.storage = storage; // Append-only storage (e.g., blockchain, WORM storage)
   }
-  
+
   async log(entry) {
     const auditEntry = {
       id: generateId(),
       timestamp: new Date().toISOString(),
       hash: this.calculateHash(entry),
       previousHash: await this.getLatestHash(),
-      entry: entry
+      entry: entry,
     };
-    
+
     // Verify chain integrity
     if (!this.verifyChain(auditEntry)) {
-      throw new Error('Audit log chain integrity violation');
+      throw new Error("Audit log chain integrity violation");
     }
-    
+
     // Append only - no updates or deletes
     await this.storage.append(auditEntry);
-    
+
     return auditEntry.id;
   }
-  
+
   calculateHash(data) {
     // Cryptographic hash ensures tamper detection
-    return crypto.createHash('sha256')
-      .update(JSON.stringify(data))
-      .digest('hex');
+    return crypto.createHash("sha256").update(JSON.stringify(data)).digest("hex");
   }
 }
 ```
@@ -267,33 +271,34 @@ class ImmutableAuditLog {
 Track data flow from source to consumption.
 
 **Implementation:**
+
 ```javascript
 class DataLineage {
   track(data, operation) {
     return {
       ...data,
       _lineage: {
-        source: data._lineage?.derivedFrom || 'original',
+        source: data._lineage?.derivedFrom || "original",
         operation: operation,
         timestamp: new Date(),
-        version: incrementVersion(data._lineage?.version || '0.0.0'),
+        version: incrementVersion(data._lineage?.version || "0.0.0"),
         transformations: [
           ...(data._lineage?.transformations || []),
           {
             operation: operation.type,
             actor: operation.actor,
-            timestamp: new Date()
-          }
-        ]
-      }
+            timestamp: new Date(),
+          },
+        ],
+      },
     };
   }
-  
+
   async getLineage(dataId) {
     // Returns complete transformation history
     return this.storage.query({
       dataId: dataId,
-      includeHistory: true
+      includeHistory: true,
     });
   }
 }
@@ -304,6 +309,7 @@ class DataLineage {
 ### Financial Services (SOX, PCI-DSS)
 
 **Key Requirements:**
+
 - Transaction immutability
 - Dual approval for high-value transactions
 - Encrypted storage of financial data
@@ -311,6 +317,7 @@ class DataLineage {
 - Access audit trails
 
 **Implementation Checklist:**
+
 - [ ] Event-sourced transaction history
 - [ ] Dual approval workflow for amounts > threshold
 - [ ] AES-256 encryption at rest
@@ -320,6 +327,7 @@ class DataLineage {
 ### Healthcare (HIPAA)
 
 **Key Requirements:**
+
 - PHI encryption in transit and at rest
 - Access logging for all PHI
 - Minimum necessary access
@@ -327,6 +335,7 @@ class DataLineage {
 - Breach notification procedures
 
 **Implementation Checklist:**
+
 - [ ] Role-based access control (RBAC)
 - [ ] PHI data classification and tagging
 - [ ] Audit log for every PHI access
@@ -336,6 +345,7 @@ class DataLineage {
 ### Privacy (GDPR, CCPA)
 
 **Key Requirements:**
+
 - Data minimization
 - Right to erasure
 - Right to portability
@@ -343,6 +353,7 @@ class DataLineage {
 - Data processing agreements
 
 **Implementation Checklist:**
+
 - [ ] Privacy by design
 - [ ] Pseudonymization of PII
 - [ ] Data export functionality
@@ -361,32 +372,32 @@ class ComplianceMonitor {
       this.checkRetentionPolicies(),
       this.checkEncryptionCompliance(),
       this.checkAuditLogIntegrity(),
-      this.checkSeparationOfDuties()
+      this.checkSeparationOfDuties(),
     ]);
-    
-    const violations = results.filter(r => !r.compliant);
-    
+
+    const violations = results.filter((r) => !r.compliant);
+
     if (violations.length > 0) {
       await this.alertComplianceTeam(violations);
     }
-    
+
     return {
       compliant: violations.length === 0,
-      violations: violations
+      violations: violations,
     };
   }
-  
+
   async checkRetentionPolicies() {
     const expiredData = await this.findExpiredData();
-    
+
     if (expiredData.length > 0) {
       return {
         compliant: false,
-        issue: 'Data retention policy violation',
-        details: expiredData
+        issue: "Data retention policy violation",
+        details: expiredData,
       };
     }
-    
+
     return { compliant: true };
   }
 }
@@ -398,29 +409,29 @@ class ComplianceMonitor {
 class ComplianceAlerting {
   async monitorCriticalOperations() {
     // Monitor for suspicious patterns
-    this.on('MULTIPLE_FAILED_ACCESS', async (event) => {
+    this.on("MULTIPLE_FAILED_ACCESS", async (event) => {
       await this.alert({
-        severity: 'HIGH',
-        type: 'POTENTIAL_BREACH_ATTEMPT',
-        details: event
+        severity: "HIGH",
+        type: "POTENTIAL_BREACH_ATTEMPT",
+        details: event,
       });
     });
-    
-    this.on('BULK_DATA_EXPORT', async (event) => {
+
+    this.on("BULK_DATA_EXPORT", async (event) => {
       if (event.recordCount > 1000) {
         await this.alert({
-          severity: 'MEDIUM',
-          type: 'UNUSUAL_DATA_EXPORT',
-          details: event
+          severity: "MEDIUM",
+          type: "UNUSUAL_DATA_EXPORT",
+          details: event,
         });
       }
     });
-    
-    this.on('OFF_HOURS_ADMIN_ACCESS', async (event) => {
+
+    this.on("OFF_HOURS_ADMIN_ACCESS", async (event) => {
       await this.alert({
-        severity: 'MEDIUM',
-        type: 'OFF_HOURS_ACCESS',
-        details: event
+        severity: "MEDIUM",
+        type: "OFF_HOURS_ACCESS",
+        details: event,
       });
     });
   }
@@ -443,44 +454,44 @@ Every system must maintain:
 ### Compliance Test Suite
 
 ```javascript
-describe('Compliance Requirements', () => {
-  describe('Audit Trail', () => {
-    it('logs all data modifications', async () => {
+describe("Compliance Requirements", () => {
+  describe("Audit Trail", () => {
+    it("logs all data modifications", async () => {
       const data = await createTestData();
-      await updateData(data.id, { field: 'new value' });
-      
+      await updateData(data.id, { field: "new value" });
+
       const auditLog = await getAuditLog(data.id);
       expect(auditLog).toContainEntry({
-        operation: 'UPDATE',
-        field: 'field',
-        oldValue: 'old value',
-        newValue: 'new value'
+        operation: "UPDATE",
+        field: "field",
+        oldValue: "old value",
+        newValue: "new value",
       });
     });
-    
-    it('audit logs are immutable', async () => {
-      const logId = await createAuditLog({ test: 'entry' });
-      
-      await expect(updateAuditLog(logId, { test: 'modified' }))
-        .rejects.toThrow('Audit logs are immutable');
+
+    it("audit logs are immutable", async () => {
+      const logId = await createAuditLog({ test: "entry" });
+
+      await expect(updateAuditLog(logId, { test: "modified" })).rejects.toThrow(
+        "Audit logs are immutable",
+      );
     });
   });
-  
-  describe('Separation of Duties', () => {
-    it('prevents self-approval', async () => {
-      const requestor = 'user_1';
+
+  describe("Separation of Duties", () => {
+    it("prevents self-approval", async () => {
+      const requestor = "user_1";
       const approvalId = await requestApproval(operation, requestor);
-      
-      await expect(approve(approvalId, requestor))
-        .rejects.toThrow('Cannot self-approve');
+
+      await expect(approve(approvalId, requestor)).rejects.toThrow("Cannot self-approve");
     });
   });
-  
-  describe('Data Retention', () => {
-    it('enforces retention policies', async () => {
-      const oldData = await createDataWithAge(8, 'years');
+
+  describe("Data Retention", () => {
+    it("enforces retention policies", async () => {
+      const oldData = await createDataWithAge(8, "years");
       await runRetentionPolicy();
-      
+
       const exists = await dataExists(oldData.id);
       expect(exists).toBe(false);
     });
@@ -501,19 +512,19 @@ class ComplianceReporter {
         totalTransactions: await this.countTransactions(),
         auditLogEntries: await this.countAuditEntries(),
         accessViolations: await this.countAccessViolations(),
-        dataBreaches: await this.countDataBreaches()
+        dataBreaches: await this.countDataBreaches(),
       },
       details: {
         highValueTransactions: await this.getHighValueTransactions(),
         failedAccessAttempts: await this.getFailedAccessAttempts(),
         dataExports: await this.getDataExports(),
-        policyChanges: await this.getPolicyChanges()
+        policyChanges: await this.getPolicyChanges(),
       },
       certifications: {
         auditLogIntegrity: await this.verifyAuditLogIntegrity(),
         encryptionCompliance: await this.verifyEncryption(),
-        accessControlCompliance: await this.verifyAccessControls()
-      }
+        accessControlCompliance: await this.verifyAccessControls(),
+      },
     };
   }
 }

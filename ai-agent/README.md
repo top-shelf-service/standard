@@ -21,6 +21,7 @@ AI Agent Decision Trees provide a structured, deterministic framework for automa
 ### Node Types
 
 #### 1. Decision Node
+
 Evaluates a condition and branches based on result.
 
 ```json
@@ -42,6 +43,7 @@ Evaluates a condition and branches based on result.
 ```
 
 #### 2. Action Node
+
 Executes an action and terminates decision path.
 
 ```json
@@ -60,6 +62,7 @@ Executes an action and terminates decision path.
 ```
 
 #### 3. Composite Node
+
 Evaluates multiple conditions with AND/OR logic.
 
 ```json
@@ -85,6 +88,7 @@ Evaluates multiple conditions with AND/OR logic.
 ```
 
 #### 4. Reference Node
+
 Invokes another decision tree.
 
 ```json
@@ -98,6 +102,7 @@ Invokes another decision tree.
 ```
 
 #### 5. Data Transformation Node
+
 Enriches or transforms data before further processing.
 
 ```json
@@ -370,32 +375,32 @@ class DecisionTreeEvaluator {
     this.context = context;
     this.executionLog = [];
   }
-  
+
   async evaluate() {
     let currentNodeId = this.tree.rootNode;
-    
+
     while (currentNodeId) {
       const node = this.tree.nodes[currentNodeId];
-      
+
       this.log({
         nodeId: currentNodeId,
         nodeType: node.type,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
-      
+
       switch (node.type) {
-        case 'decision':
+        case "decision":
           currentNodeId = await this.evaluateDecision(node);
           break;
-        case 'composite':
+        case "composite":
           currentNodeId = await this.evaluateComposite(node);
           break;
-        case 'action':
+        case "action":
           return this.executeAction(node);
-        case 'reference':
+        case "reference":
           currentNodeId = await this.evaluateReference(node);
           break;
-        case 'transform':
+        case "transform":
           currentNodeId = await this.executeTransform(node);
           break;
         default:
@@ -403,60 +408,54 @@ class DecisionTreeEvaluator {
       }
     }
   }
-  
+
   evaluateDecision(node) {
     const value = this.getFieldValue(node.condition.field);
-    const result = this.applyOperator(
-      value,
-      node.condition.operator,
-      node.condition.value
-    );
-    
+    const result = this.applyOperator(value, node.condition.operator, node.condition.value);
+
     this.log({
       evaluation: {
         field: node.condition.field,
         value: value,
         operator: node.condition.operator,
         expected: node.condition.value,
-        result: result
-      }
+        result: result,
+      },
     });
-    
+
     return result ? node.trueBranch : node.falseBranch;
   }
-  
+
   evaluateComposite(node) {
-    const results = node.conditions.map(condition => {
+    const results = node.conditions.map((condition) => {
       const value = this.getFieldValue(condition.field);
       return this.applyOperator(value, condition.operator, condition.value);
     });
-    
-    const finalResult = node.logic === 'AND' 
-      ? results.every(r => r)
-      : results.some(r => r);
-    
+
+    const finalResult = node.logic === "AND" ? results.every((r) => r) : results.some((r) => r);
+
     this.log({
       composite: {
         logic: node.logic,
         individualResults: results,
-        finalResult: finalResult
-      }
+        finalResult: finalResult,
+      },
     });
-    
+
     return finalResult ? node.trueBranch : node.falseBranch;
   }
-  
+
   getFieldValue(fieldPath) {
-    return fieldPath.split('.').reduce((obj, key) => obj?.[key], this.context);
+    return fieldPath.split(".").reduce((obj, key) => obj?.[key], this.context);
   }
-  
+
   log(entry) {
     this.executionLog.push({
       timestamp: new Date(),
-      ...entry
+      ...entry,
     });
   }
-  
+
   getExecutionLog() {
     return this.executionLog;
   }
@@ -471,60 +470,60 @@ All decision trees must conform to a JSON schema:
 
 ```javascript
 const decisionTreeSchema = {
-  type: 'object',
-  required: ['id', 'name', 'version', 'rootNode', 'nodes'],
+  type: "object",
+  required: ["id", "name", "version", "rootNode", "nodes"],
   properties: {
-    id: { type: 'string', pattern: '^[a-z0-9_]+$' },
-    name: { type: 'string' },
-    version: { type: 'string', pattern: '^\\d+\\.\\d+\\.\\d+$' },
-    rootNode: { type: 'string' },
+    id: { type: "string", pattern: "^[a-z0-9_]+$" },
+    name: { type: "string" },
+    version: { type: "string", pattern: "^\\d+\\.\\d+\\.\\d+$" },
+    rootNode: { type: "string" },
     nodes: {
-      type: 'object',
+      type: "object",
       additionalProperties: {
-        type: 'object',
-        required: ['type'],
+        type: "object",
+        required: ["type"],
         properties: {
           type: {
-            enum: ['decision', 'composite', 'action', 'reference', 'transform']
-          }
-        }
-      }
-    }
-  }
+            enum: ["decision", "composite", "action", "reference", "transform"],
+          },
+        },
+      },
+    },
+  },
 };
 ```
 
 ### Test Cases
 
 ```javascript
-describe('Decision Tree Evaluation', () => {
-  it('follows correct path for high-value transaction', () => {
-    const tree = loadTree('transaction_approval_v1');
+describe("Decision Tree Evaluation", () => {
+  it("follows correct path for high-value transaction", () => {
+    const tree = loadTree("transaction_approval_v1");
     const context = {
       amount: 15000,
-      customer: { tier: 'gold' }
+      customer: { tier: "gold" },
     };
-    
+
     const evaluator = new DecisionTreeEvaluator(tree, context);
     const result = evaluator.evaluate();
-    
-    expect(result.action.type).toBe('escalate');
-    expect(result.action.role).toBe('Manager');
+
+    expect(result.action.type).toBe("escalate");
+    expect(result.action.role).toBe("Manager");
   });
-  
-  it('logs all decision points', () => {
-    const tree = loadTree('transaction_approval_v1');
+
+  it("logs all decision points", () => {
+    const tree = loadTree("transaction_approval_v1");
     const context = { amount: 5000 };
-    
+
     const evaluator = new DecisionTreeEvaluator(tree, context);
     evaluator.evaluate();
-    
+
     const log = evaluator.getExecutionLog();
     expect(log).toContainEqual(
       expect.objectContaining({
-        nodeId: 'check_amount',
-        nodeType: 'decision'
-      })
+        nodeId: "check_amount",
+        nodeType: "decision",
+      }),
     );
   });
 });
@@ -554,6 +553,7 @@ describe('Decision Tree Evaluation', () => {
 ### Tree Ownership
 
 Each decision tree must have:
+
 - **Owner**: Team/role responsible for maintenance
 - **Effective Date**: When tree becomes active
 - **Review Cycle**: How often tree is reviewed (quarterly, annually)
@@ -562,6 +562,7 @@ Each decision tree must have:
 ### Change Control
 
 All changes require:
+
 1. **Impact Analysis**: What will change?
 2. **Testing**: Proof that tree works as intended
 3. **Documentation**: Why the change is needed
@@ -581,6 +582,7 @@ All changes require:
 ### Anomaly Detection
 
 Monitor for:
+
 - Sudden changes in path distribution
 - Unusual increase in errors
 - New edge cases not covered
@@ -604,6 +606,7 @@ Decision trees are **Fuel** (configuration), evaluated by **Engine** (code):
 - **Fuel**: Tree definitions, thresholds, conditions, actions
 
 This separation allows:
+
 - Trees to be modified without code changes
 - A/B testing different decision logic
 - Client-specific trees while sharing evaluation engine

@@ -90,7 +90,7 @@ xl:  32px  - Large spacing
 - Border radius: 8px
 - Font weight: 600 (semibold)
 - Transition: 250ms ease-in-out
-- Focus state: 2px cyan outline with glow
+- Focus state: 2px green outline with glow
 
 ### Cards
 
@@ -105,7 +105,7 @@ xl:  32px  - Large spacing
 - Input height: 40px
 - Border: 1px `var(--color-border-primary)`
 - Border radius: 8px
-- Focus: 2px cyan border with glow
+- Focus: 2px green border with glow
 - Label: 14px semibold, 8px bottom margin
 
 ## Accessibility Requirements
@@ -121,13 +121,13 @@ xl:  32px  - Large spacing
 Include the variables file in your project:
 
 ```html
-<link rel="stylesheet" href="/design-system/css/variables.css">
+<link rel="stylesheet" href="/design-system/css/variables.css" />
 ```
 
 Or import in CSS:
 
 ```css
-@import url('/design-system/css/variables.css');
+@import url("/design-system/css/variables.css");
 ```
 
 ## File Organization

@@ -8,7 +8,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "preinstall": "ts-node scripts/health/checks.ts preinstall",
+    "preinstall": "node scripts/health/preinstall-check.js",
+    "postinstall": "ts-node scripts/health/checks.ts postinstall",
     "lint": "eslint .",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
@@ -20,6 +21,7 @@
     "serve:retrieval": "ts-node scripts/retrieval-server.ts"
   },
   "devDependencies": {
+    "@eslint/js": "^9.20.0",
     "@types/node": "^22.10.0",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
@@ -29,6 +31,7 @@
     "prettier": "^3.5.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0",
     "vitest": "^1.1.8"
   },
   "keywords": [
@@ -38,5 +41,5 @@
     "documentation"
   ],
   "author": "Top Shelf Service LLC",
-  "license": "PROPRIETARY"
+  "license": "UNLICENSED"
 }

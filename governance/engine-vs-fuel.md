@@ -47,6 +47,7 @@ The **Engine** represents the core, reusable business logic that:
 - Remains **stable and version-controlled**
 
 **Examples:**
+
 - Risk assessment algorithms
 - Escalation decision trees
 - Data validation logic
@@ -65,6 +66,7 @@ The **Fuel** represents client-specific configuration that:
 - May be **stored separately** (database, config files, CMS)
 
 **Examples:**
+
 - Approval thresholds (e.g., "Amount > $10,000 requires VP approval")
 - Client-specific workflows
 - Custom field definitions
@@ -81,7 +83,7 @@ The **Fuel** represents client-specific configuration that:
 ✅ Use dependency injection for configuration  
 ✅ Write unit tests with various configuration inputs  
 ✅ Version control all engine code  
-✅ Document all configuration points  
+✅ Document all configuration points
 
 ### DON'T: Engine
 
@@ -89,7 +91,7 @@ The **Fuel** represents client-specific configuration that:
 ❌ Include client-specific thresholds in code  
 ❌ Create one-off functions for single clients  
 ❌ Mix business logic with configuration data  
-❌ Use conditional logic based on client identity  
+❌ Use conditional logic based on client identity
 
 ### DO: Fuel
 
@@ -98,14 +100,14 @@ The **Fuel** represents client-specific configuration that:
 ✅ Validate configuration against schemas  
 ✅ Version control configuration separately  
 ✅ Document all configuration options  
-✅ Provide configuration templates  
+✅ Provide configuration templates
 
 ### DON'T: Fuel
 
 ❌ Include executable code  
 ❌ Bypass engine validation rules  
 ❌ Duplicate logic from engine  
-❌ Create client-specific algorithms  
+❌ Create client-specific algorithms
 
 ## Implementation Patterns
 
@@ -115,12 +117,12 @@ The **Fuel** represents client-specific configuration that:
 // ENGINE: Generic decision evaluator
 function evaluateDecisionTree(tree, context) {
   let currentNode = tree.root;
-  
+
   while (currentNode) {
-    if (currentNode.type === 'decision') {
+    if (currentNode.type === "decision") {
       const result = evaluateCondition(currentNode.condition, context);
       currentNode = result ? currentNode.trueBranch : currentNode.falseBranch;
-    } else if (currentNode.type === 'action') {
+    } else if (currentNode.type === "action") {
       return currentNode.action;
     }
   }
@@ -129,17 +131,17 @@ function evaluateDecisionTree(tree, context) {
 // FUEL: Client-specific decision tree
 const clientDecisionTree = {
   root: {
-    type: 'decision',
-    condition: { field: 'amount', operator: '>', value: 10000 },
+    type: "decision",
+    condition: { field: "amount", operator: ">", value: 10000 },
     trueBranch: {
-      type: 'action',
-      action: { type: 'escalate', to: 'VP_APPROVAL' }
+      type: "action",
+      action: { type: "escalate", to: "VP_APPROVAL" },
     },
     falseBranch: {
-      type: 'action',
-      action: { type: 'auto_approve' }
-    }
-  }
+      type: "action",
+      action: { type: "auto_approve" },
+    },
+  },
 };
 ```
 
@@ -159,17 +161,17 @@ function applyRules(rules, data) {
 // FUEL: Client rules
 const clientRules = [
   {
-    name: 'High Value Check',
-    condition: { field: 'value', operator: '>=', threshold: 50000 },
-    action: { type: 'require_dual_approval' },
-    stopOnMatch: false
+    name: "High Value Check",
+    condition: { field: "value", operator: ">=", threshold: 50000 },
+    action: { type: "require_dual_approval" },
+    stopOnMatch: false,
   },
   {
-    name: 'Weekend Processing',
-    condition: { field: 'dayOfWeek', operator: 'in', values: ['Saturday', 'Sunday'] },
-    action: { type: 'defer_until_weekday' },
-    stopOnMatch: true
-  }
+    name: "Weekend Processing",
+    condition: { field: "dayOfWeek", operator: "in", values: ["Saturday", "Sunday"] },
+    action: { type: "defer_until_weekday" },
+    stopOnMatch: true,
+  },
 ];
 ```
 
@@ -179,13 +181,13 @@ const clientRules = [
 // ENGINE: Template processor
 function processTemplate(template, data, validators) {
   const processed = {};
-  
+
   for (const [key, definition] of Object.entries(template.fields)) {
     const value = extractValue(data, definition.source);
     const validated = validators[definition.validator](value, definition.rules);
     processed[key] = validated;
   }
-  
+
   return processed;
 }
 
@@ -193,16 +195,16 @@ function processTemplate(template, data, validators) {
 const clientTemplate = {
   fields: {
     customerName: {
-      source: 'customer.fullName',
-      validator: 'required_string',
-      rules: { minLength: 2, maxLength: 100 }
+      source: "customer.fullName",
+      validator: "required_string",
+      rules: { minLength: 2, maxLength: 100 },
     },
     orderValue: {
-      source: 'order.total',
-      validator: 'currency',
-      rules: { min: 0, currency: 'USD' }
-    }
-  }
+      source: "order.total",
+      validator: "currency",
+      rules: { min: 0, currency: "USD" },
+    },
+  },
 };
 ```
 
@@ -258,12 +260,12 @@ The Engine/Fuel separation supports compliance by:
 
 All changes to Engine or Fuel must follow these approval paths:
 
-| Change Type | Approval Required | Review Process |
-|------------|-------------------|----------------|
-| Engine Code | Engineering Lead + Compliance | Code review + security scan |
-| Engine API | Architecture Review Board | Design review + impact analysis |
-| Fuel Schema | Product + Engineering | Schema validation + migration plan |
-| Client Fuel | Account Manager + Compliance | Configuration review + testing |
+| Change Type | Approval Required             | Review Process                     |
+| ----------- | ----------------------------- | ---------------------------------- |
+| Engine Code | Engineering Lead + Compliance | Code review + security scan        |
+| Engine API  | Architecture Review Board     | Design review + impact analysis    |
+| Fuel Schema | Product + Engineering         | Schema validation + migration plan |
+| Client Fuel | Account Manager + Compliance  | Configuration review + testing     |
 
 ## Related Documents
 

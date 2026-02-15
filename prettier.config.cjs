@@ -10,15 +10,8 @@ module.exports = {
       files: "*.md",
       options: {
         printWidth: 100,
-        proseWrap: "preserve"
-      }
+        proseWrap: "preserve",
+      },
     },
-    {
-      files: "*.mmd",
-      options: {
-        printWidth: 100,
-        proseWrap: "preserve"
-      }
-    }
-  ]
+  ],
 };

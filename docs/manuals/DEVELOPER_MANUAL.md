@@ -15,17 +15,20 @@ Last Updated: 2026-02-13
 ### Initial Setup
 
 1. **Enable Corepack** (one-time setup):
+
    ```bash
    corepack enable
    ```
 
 2. **Clone the repository**:
+
    ```bash
    git clone https://github.com/top-shelf-service/standard.git
    cd standard
    ```
 
 3. **Install dependencies**:
+
    ```bash
    pnpm install
    ```
@@ -40,6 +43,7 @@ Last Updated: 2026-02-13
 ### Before Making Changes
 
 1. Create a new branch:
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -65,6 +69,7 @@ Last Updated: 2026-02-13
 1. Create a new `.yaml` file in `core/entities/`
 2. Follow the schema defined in `ai-agent/decision-tree-schema.json`
 3. Run validation:
+
    ```bash
    pnpm build:packs
    ```
@@ -76,11 +81,13 @@ Last Updated: 2026-02-13
 #### Linting
 
 Check for code issues:
+
 ```bash
 pnpm lint
 ```
 
 Fix automatically where possible:
+
 ```bash
 pnpm lint --fix
 ```
@@ -88,11 +95,13 @@ pnpm lint --fix
 #### Formatting
 
 Check formatting:
+
 ```bash
 pnpm format:check
 ```
 
 Auto-format all files:
+
 ```bash
 pnpm format
 ```
@@ -100,6 +109,7 @@ pnpm format
 #### Type Checking
 
 Verify TypeScript types:
+
 ```bash
 tsc --noEmit
 ```
@@ -107,11 +117,13 @@ tsc --noEmit
 ### Testing
 
 Run all tests:
+
 ```bash
 pnpm test
 ```
 
 Run tests in watch mode during development:
+
 ```bash
 pnpm test:watch
 ```
@@ -119,11 +131,13 @@ pnpm test:watch
 ### Complete Health Check
 
 Before committing, always run:
+
 ```bash
 pnpm doctor
 ```
 
 This performs:
+
 - ✅ Environment checks
 - ✅ Linting
 - ✅ Format verification
@@ -161,6 +175,7 @@ pnpm build:packs    # Build data packs
 **Cause**: You used `npm` or `yarn` instead of `pnpm`
 
 **Fix**:
+
 ```bash
 rm -rf node_modules package-lock.json yarn.lock
 pnpm install
@@ -183,6 +198,7 @@ pnpm install
 **Cause**: Code formatting doesn't match standards
 
 **Fix**:
+
 ```bash
 pnpm format
 ```
@@ -192,6 +208,7 @@ pnpm format
 **Cause**: Code quality issues
 
 **Fix**:
+
 ```bash
 pnpm lint --fix
 ```
@@ -211,6 +228,7 @@ Follow conventional commits format:
 - `chore:` - Maintenance tasks
 
 Examples:
+
 ```bash
 git commit -m "feat: add new decision tree validator"
 git commit -m "docs: update technical manual"
@@ -230,6 +248,7 @@ git commit -m "fix: correct Node version check"
 ### GitHub Actions
 
 Every push and PR triggers:
+
 1. Package manager verification
 2. Dependency installation
 3. `pnpm doctor` check
@@ -240,6 +259,7 @@ Every push and PR triggers:
 ### Local CI Simulation
 
 Before pushing, simulate CI locally:
+
 ```bash
 pnpm doctor && pnpm test
 ```
@@ -269,11 +289,13 @@ pnpm doctor && pnpm test
 ### VS Code
 
 Recommended extensions:
+
 - ESLint
 - Prettier
 - EditorConfig
 
 Settings will be automatically picked up from:
+
 - `.editorconfig`
 - `eslint.config.mjs`
 - `prettier.config.cjs`
@@ -281,6 +303,7 @@ Settings will be automatically picked up from:
 ### Other Editors
 
 Configure your editor to respect:
+
 - 2-space indentation
 - LF line endings
 - UTF-8 encoding

@@ -1,4 +1,5 @@
 # Top Shelf UI Usage Standard (Templates)
+
 Version: 1.0  
 Owner: Top Shelf Service LLC™
 
@@ -8,22 +9,27 @@ Copyright (c) 2026 Top Shelf Service LLC
 ## PURPOSE
 
 This document provides copy/paste UI templates that are:
+
 - **Reproducible** (same building blocks every time)
 - **Flexible** (content and nav vary by product)
 - **On-brand by default** (powered by brand/topshelf.css)
 
 This repo does NOT define routing or page lists. App repos define:
+
 - Routes/pages
 - Sidebar items / dropdown items
 - Feature logic (auth, org, scheduling, training, etc.)
 
 This repo defines:
+
 - The UI "shell" patterns
 - Page composition templates
 - Allowed customization points
 
 ────────────────────────────────────────
+
 ## 1) HOW TO USE IN AN APP
+
 ────────────────────────────────────────
 
 1. Import the brand stylesheet once:
@@ -43,7 +49,9 @@ This repo defines:
 **Rule**: If you need a layout not covered here, extend with composition first (add another card, list, grid). Do NOT create new styling until required.
 
 ────────────────────────────────────────
+
 ## 2) TOP SHELF PAGE SHELL (BASE PATTERN)
+
 ────────────────────────────────────────
 
 Use this structure for every screen.
@@ -69,14 +77,14 @@ Use this structure for every screen.
     <!-- Content goes here -->
   </div>
 
-  <div class="ts-footer">
-    © 2026 Top Shelf Service LLC™. All rights reserved.
-  </div>
+  <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 3) TEMPLATE: DASHBOARD PAGE
+
 ────────────────────────────────────────
 
 Dashboard = quick entry points + status cards + recent activity.
@@ -125,15 +133,9 @@ Dashboard = quick entry points + status cards + recent activity.
     <div class="ts-divider"></div>
 
     <div class="ts-grid ts-grid-3">
-      <button class="ts-btn ts-btn-secondary ts-btn-full">
-        Create New Order
-      </button>
-      <button class="ts-btn ts-btn-secondary ts-btn-full">
-        Review Pending Items
-      </button>
-      <button class="ts-btn ts-btn-secondary ts-btn-full">
-        Generate Report
-      </button>
+      <button class="ts-btn ts-btn-secondary ts-btn-full">Create New Order</button>
+      <button class="ts-btn ts-btn-secondary ts-btn-full">Review Pending Items</button>
+      <button class="ts-btn ts-btn-secondary ts-btn-full">Generate Report</button>
     </div>
   </div>
 
@@ -179,14 +181,14 @@ Dashboard = quick entry points + status cards + recent activity.
     </ul>
   </div>
 
-  <div class="ts-footer">
-    © 2026 Top Shelf Service LLC™. All rights reserved.
-  </div>
+  <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 4) TEMPLATE: LIST PAGE (COLLECTION INDEX)
+
 ────────────────────────────────────────
 
 List pages should be "scannable" and tap-friendly.
@@ -207,9 +209,9 @@ List pages should be "scannable" and tap-friendly.
   <!-- Filters / Search Bar -->
   <div class="ts-card ts-card-compact">
     <div class="ts-flex ts-gap-md">
-      <input 
-        type="search" 
-        class="ts-input" 
+      <input
+        type="search"
+        class="ts-input"
         placeholder="Search by order ID, customer name..."
         style="flex: 1;"
       />
@@ -285,14 +287,14 @@ List pages should be "scannable" and tap-friendly.
     </div>
   </div>
 
-  <div class="ts-footer">
-    © 2026 Top Shelf Service LLC™. All rights reserved.
-  </div>
+  <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 5) TEMPLATE: DETAIL PAGE (VIEW / REVIEW)
+
 ────────────────────────────────────────
 
 Detail page = read-only primary view with clear actions.
@@ -330,7 +332,9 @@ Detail page = read-only primary view with clear actions.
       </div>
       <div>
         <div class="ts-subtle">Risk Score</div>
-        <div class="ts-font-semibold ts-mt-sm">75 <span class="ts-badge ts-badge-info">Normal</span></div>
+        <div class="ts-font-semibold ts-mt-sm">
+          75 <span class="ts-badge ts-badge-info">Normal</span>
+        </div>
       </div>
     </div>
   </div>
@@ -379,7 +383,10 @@ Detail page = read-only primary view with clear actions.
 
     <div class="ts-form-group">
       <div class="ts-label">Description</div>
-      <div>Enterprise software license renewal for 500 users. Includes premium support and training credits.</div>
+      <div>
+        Enterprise software license renewal for 500 users. Includes premium support and training
+        credits.
+      </div>
     </div>
 
     <div class="ts-form-group">
@@ -426,14 +433,14 @@ Detail page = read-only primary view with clear actions.
     </ul>
   </div>
 
-  <div class="ts-footer">
-    © 2026 Top Shelf Service LLC™. All rights reserved.
-  </div>
+  <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 6) TEMPLATE: FORM PAGE (CREATE / EDIT)
+
 ────────────────────────────────────────
 
 Forms must be readable, touch-friendly, and low-error.
@@ -455,9 +462,7 @@ Forms must be readable, touch-friendly, and low-error.
       <div class="ts-divider"></div>
 
       <div class="ts-form-group">
-        <label class="ts-label" for="customer">
-          Customer *
-        </label>
+        <label class="ts-label" for="customer"> Customer * </label>
         <select id="customer" class="ts-select" required>
           <option value="">Select a customer...</option>
           <option value="acme">Acme Corporation</option>
@@ -468,26 +473,16 @@ Forms must be readable, touch-friendly, and low-error.
 
       <div class="ts-grid ts-grid-2">
         <div class="ts-form-group">
-          <label class="ts-label" for="contact-name">
-            Contact Name *
-          </label>
-          <input 
-            type="text" 
-            id="contact-name" 
-            class="ts-input" 
-            placeholder="John Smith"
-            required
-          />
+          <label class="ts-label" for="contact-name"> Contact Name * </label>
+          <input type="text" id="contact-name" class="ts-input" placeholder="John Smith" required />
         </div>
 
         <div class="ts-form-group">
-          <label class="ts-label" for="contact-email">
-            Contact Email *
-          </label>
-          <input 
-            type="email" 
-            id="contact-email" 
-            class="ts-input" 
+          <label class="ts-label" for="contact-email"> Contact Email * </label>
+          <input
+            type="email"
+            id="contact-email"
+            class="ts-input"
             placeholder="john.smith@example.com"
             required
           />
@@ -502,29 +497,23 @@ Forms must be readable, touch-friendly, and low-error.
       <div class="ts-divider"></div>
 
       <div class="ts-form-group">
-        <label class="ts-label" for="order-amount">
-          Order Amount (USD) *
-        </label>
-        <input 
-          type="number" 
-          id="order-amount" 
-          class="ts-input" 
+        <label class="ts-label" for="order-amount"> Order Amount (USD) * </label>
+        <input
+          type="number"
+          id="order-amount"
+          class="ts-input"
           placeholder="0.00"
           step="0.01"
           required
         />
-        <div class="ts-subtle ts-mt-sm">
-          Orders over $10,000 require manager approval
-        </div>
+        <div class="ts-subtle ts-mt-sm">Orders over $10,000 require manager approval</div>
       </div>
 
       <div class="ts-form-group">
-        <label class="ts-label" for="description">
-          Description *
-        </label>
-        <textarea 
-          id="description" 
-          class="ts-textarea" 
+        <label class="ts-label" for="description"> Description * </label>
+        <textarea
+          id="description"
+          class="ts-textarea"
           placeholder="Describe the order details, products, or services..."
           required
         ></textarea>
@@ -532,9 +521,7 @@ Forms must be readable, touch-friendly, and low-error.
 
       <div class="ts-grid ts-grid-2">
         <div class="ts-form-group">
-          <label class="ts-label" for="payment-terms">
-            Payment Terms *
-          </label>
+          <label class="ts-label" for="payment-terms"> Payment Terms * </label>
           <select id="payment-terms" class="ts-select" required>
             <option value="">Select terms...</option>
             <option value="net15">Net 15 days</option>
@@ -545,15 +532,8 @@ Forms must be readable, touch-friendly, and low-error.
         </div>
 
         <div class="ts-form-group">
-          <label class="ts-label" for="delivery-date">
-            Expected Delivery Date *
-          </label>
-          <input 
-            type="date" 
-            id="delivery-date" 
-            class="ts-input"
-            required
-          />
+          <label class="ts-label" for="delivery-date"> Expected Delivery Date * </label>
+          <input type="date" id="delivery-date" class="ts-input" required />
         </div>
       </div>
 
@@ -572,54 +552,39 @@ Forms must be readable, touch-friendly, and low-error.
       <div class="ts-divider"></div>
 
       <div class="ts-form-group">
-        <label class="ts-label" for="notes">
-          Internal Notes
-        </label>
-        <textarea 
-          id="notes" 
-          class="ts-textarea" 
+        <label class="ts-label" for="notes"> Internal Notes </label>
+        <textarea
+          id="notes"
+          class="ts-textarea"
           placeholder="Add any internal notes or comments..."
           rows="3"
         ></textarea>
       </div>
 
       <div class="ts-form-group">
-        <label class="ts-label" for="reference">
-          Reference Number
-        </label>
-        <input 
-          type="text" 
-          id="reference" 
-          class="ts-input" 
-          placeholder="PO-12345"
-        />
+        <label class="ts-label" for="reference"> Reference Number </label>
+        <input type="text" id="reference" class="ts-input" placeholder="PO-12345" />
       </div>
     </div>
 
     <!-- Form Actions -->
     <div class="ts-card">
       <div class="ts-flex ts-gap-sm" style="justify-content: flex-end;">
-        <button type="button" class="ts-btn ts-btn-secondary">
-          Cancel
-        </button>
-        <button type="button" class="ts-btn ts-btn-secondary">
-          Save as Draft
-        </button>
-        <button type="submit" class="ts-btn ts-btn-primary">
-          Submit Order
-        </button>
+        <button type="button" class="ts-btn ts-btn-secondary">Cancel</button>
+        <button type="button" class="ts-btn ts-btn-secondary">Save as Draft</button>
+        <button type="submit" class="ts-btn ts-btn-primary">Submit Order</button>
       </div>
     </div>
   </form>
 
-  <div class="ts-footer">
-    © 2026 Top Shelf Service LLC™. All rights reserved.
-  </div>
+  <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 7) TEMPLATE: WIZARD (MULTI-STEP FLOW)
+
 ────────────────────────────────────────
 
 Use for onboarding flows. Keep steps short.
@@ -662,53 +627,33 @@ Use for onboarding flows. Keep steps short.
     <div class="ts-divider"></div>
 
     <div class="ts-form-group">
-      <label class="ts-label" for="primary-contact">
-        Primary Contact Name *
-      </label>
-      <input 
-        type="text" 
-        id="primary-contact" 
-        class="ts-input" 
-        placeholder="Jane Doe"
-        required
-      />
+      <label class="ts-label" for="primary-contact"> Primary Contact Name * </label>
+      <input type="text" id="primary-contact" class="ts-input" placeholder="Jane Doe" required />
     </div>
 
     <div class="ts-grid ts-grid-2">
       <div class="ts-form-group">
-        <label class="ts-label" for="email">
-          Email Address *
-        </label>
-        <input 
-          type="email" 
-          id="email" 
-          class="ts-input" 
+        <label class="ts-label" for="email"> Email Address * </label>
+        <input
+          type="email"
+          id="email"
+          class="ts-input"
           placeholder="jane.doe@example.com"
           required
         />
       </div>
 
       <div class="ts-form-group">
-        <label class="ts-label" for="phone">
-          Phone Number *
-        </label>
-        <input 
-          type="tel" 
-          id="phone" 
-          class="ts-input" 
-          placeholder="+1 (555) 123-4567"
-          required
-        />
+        <label class="ts-label" for="phone"> Phone Number * </label>
+        <input type="tel" id="phone" class="ts-input" placeholder="+1 (555) 123-4567" required />
       </div>
     </div>
 
     <div class="ts-form-group">
-      <label class="ts-label" for="address">
-        Business Address *
-      </label>
-      <textarea 
-        id="address" 
-        class="ts-textarea" 
+      <label class="ts-label" for="address"> Business Address * </label>
+      <textarea
+        id="address"
+        class="ts-textarea"
         placeholder="123 Business St, Suite 100&#10;City, State ZIP"
         rows="3"
         required
@@ -718,34 +663,30 @@ Use for onboarding flows. Keep steps short.
     <div class="ts-form-group">
       <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
         <input type="checkbox" class="ts-checkbox" id="same-billing" />
-        <span class="ts-label" style="margin: 0;">Billing address is the same as business address</span>
+        <span class="ts-label" style="margin: 0;"
+          >Billing address is the same as business address</span
+        >
       </label>
     </div>
 
     <!-- Wizard Navigation -->
     <div class="ts-wizard-actions">
-      <button type="button" class="ts-btn ts-btn-secondary">
-        ← Previous Step
-      </button>
+      <button type="button" class="ts-btn ts-btn-secondary">← Previous Step</button>
       <div class="ts-flex ts-gap-sm">
-        <button type="button" class="ts-btn ts-btn-ghost">
-          Save & Exit
-        </button>
-        <button type="button" class="ts-btn ts-btn-primary">
-          Next Step →
-        </button>
+        <button type="button" class="ts-btn ts-btn-ghost">Save & Exit</button>
+        <button type="button" class="ts-btn ts-btn-primary">Next Step →</button>
       </div>
     </div>
   </div>
 
-  <div class="ts-footer">
-    © 2026 Top Shelf Service LLC™. All rights reserved.
-  </div>
+  <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 8) NAV PATTERNS
+
 ────────────────────────────────────────
 
 Navigation structure (what pages exist) lives in the app repo.
@@ -758,34 +699,20 @@ Use for primary navigation and global actions.
 ```html
 <nav class="ts-topbar">
   <!-- Brand / Logo -->
-  <a href="/" class="ts-topbar-brand">
-    Top Shelf
-  </a>
+  <a href="/" class="ts-topbar-brand"> Top Shelf </a>
 
   <!-- Primary Navigation -->
   <div class="ts-topbar-nav">
-    <a href="/dashboard" class="ts-topbar-link ts-topbar-link-active">
-      Dashboard
-    </a>
-    <a href="/orders" class="ts-topbar-link">
-      Orders
-    </a>
-    <a href="/customers" class="ts-topbar-link">
-      Customers
-    </a>
-    <a href="/reports" class="ts-topbar-link">
-      Reports
-    </a>
+    <a href="/dashboard" class="ts-topbar-link ts-topbar-link-active"> Dashboard </a>
+    <a href="/orders" class="ts-topbar-link"> Orders </a>
+    <a href="/customers" class="ts-topbar-link"> Customers </a>
+    <a href="/reports" class="ts-topbar-link"> Reports </a>
   </div>
 
   <!-- User Actions -->
   <div class="ts-topbar-nav">
-    <button class="ts-btn ts-btn-ghost ts-btn-small">
-      Notifications (3)
-    </button>
-    <button class="ts-btn ts-btn-ghost ts-btn-small">
-      Profile
-    </button>
+    <button class="ts-btn ts-btn-ghost ts-btn-small">Notifications (3)</button>
+    <button class="ts-btn ts-btn-ghost ts-btn-small">Profile</button>
   </div>
 </nav>
 ```
@@ -797,44 +724,32 @@ Use for secondary navigation within a section.
 ```html
 <aside class="ts-sidebar">
   <h3 class="ts-mb-lg">Orders</h3>
-  
+
   <ul class="ts-sidebar-nav">
     <li>
-      <a href="/orders/all" class="ts-sidebar-link ts-sidebar-link-active">
-        All Orders
-      </a>
+      <a href="/orders/all" class="ts-sidebar-link ts-sidebar-link-active"> All Orders </a>
     </li>
     <li>
-      <a href="/orders/pending" class="ts-sidebar-link">
-        Pending Review
-      </a>
+      <a href="/orders/pending" class="ts-sidebar-link"> Pending Review </a>
     </li>
     <li>
-      <a href="/orders/approved" class="ts-sidebar-link">
-        Approved
-      </a>
+      <a href="/orders/approved" class="ts-sidebar-link"> Approved </a>
     </li>
     <li>
-      <a href="/orders/rejected" class="ts-sidebar-link">
-        Rejected
-      </a>
+      <a href="/orders/rejected" class="ts-sidebar-link"> Rejected </a>
     </li>
   </ul>
 
   <div class="ts-divider"></div>
 
   <h3 class="ts-mb-lg">Actions</h3>
-  
+
   <ul class="ts-sidebar-nav">
     <li>
-      <a href="/orders/create" class="ts-sidebar-link">
-        Create Order
-      </a>
+      <a href="/orders/create" class="ts-sidebar-link"> Create Order </a>
     </li>
     <li>
-      <a href="/orders/export" class="ts-sidebar-link">
-        Export Data
-      </a>
+      <a href="/orders/export" class="ts-sidebar-link"> Export Data </a>
     </li>
   </ul>
 </aside>
@@ -847,68 +762,62 @@ Complete page layout with both navigation types.
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Top Shelf Service</title>
-  <link rel="stylesheet" href="path/to/brand/topshelf.css">
-</head>
-<body>
-  <!-- Topbar -->
-  <nav class="ts-topbar">
-    <a href="/" class="ts-topbar-brand">Top Shelf</a>
-    <div class="ts-topbar-nav">
-      <a href="/dashboard" class="ts-topbar-link">Dashboard</a>
-      <a href="/orders" class="ts-topbar-link ts-topbar-link-active">Orders</a>
-      <a href="/customers" class="ts-topbar-link">Customers</a>
-    </div>
-    <div class="ts-topbar-nav">
-      <button class="ts-btn ts-btn-ghost ts-btn-small">Profile</button>
-    </div>
-  </nav>
-
-  <!-- Main Layout: Sidebar + Content -->
-  <div style="display: flex;">
-    <!-- Sidebar -->
-    <aside class="ts-sidebar">
-      <h3 class="ts-mb-lg">Orders</h3>
-      <ul class="ts-sidebar-nav">
-        <li>
-          <a href="/orders/all" class="ts-sidebar-link ts-sidebar-link-active">
-            All Orders
-          </a>
-        </li>
-        <li>
-          <a href="/orders/pending" class="ts-sidebar-link">
-            Pending Review
-          </a>
-        </li>
-      </ul>
-    </aside>
-
-    <!-- Main Content -->
-    <main style="flex: 1;">
-      <div class="ts-container">
-        <div class="ts-header">
-          <div>
-            <h1>All Orders</h1>
-            <div class="ts-subtle">View and manage orders</div>
-          </div>
-          <button class="ts-btn ts-btn-primary">Create Order</button>
-        </div>
-
-        <!-- Page content here -->
-        <div class="ts-card">
-          <p>Your page content goes here...</p>
-        </div>
-
-        <div class="ts-footer">
-          © 2026 Top Shelf Service LLC™. All rights reserved.
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Shelf Service</title>
+    <link rel="stylesheet" href="path/to/brand/topshelf.css" />
+  </head>
+  <body>
+    <!-- Topbar -->
+    <nav class="ts-topbar">
+      <a href="/" class="ts-topbar-brand">Top Shelf</a>
+      <div class="ts-topbar-nav">
+        <a href="/dashboard" class="ts-topbar-link">Dashboard</a>
+        <a href="/orders" class="ts-topbar-link ts-topbar-link-active">Orders</a>
+        <a href="/customers" class="ts-topbar-link">Customers</a>
       </div>
-    </main>
-  </div>
-</body>
+      <div class="ts-topbar-nav">
+        <button class="ts-btn ts-btn-ghost ts-btn-small">Profile</button>
+      </div>
+    </nav>
+
+    <!-- Main Layout: Sidebar + Content -->
+    <div style="display: flex;">
+      <!-- Sidebar -->
+      <aside class="ts-sidebar">
+        <h3 class="ts-mb-lg">Orders</h3>
+        <ul class="ts-sidebar-nav">
+          <li>
+            <a href="/orders/all" class="ts-sidebar-link ts-sidebar-link-active"> All Orders </a>
+          </li>
+          <li>
+            <a href="/orders/pending" class="ts-sidebar-link"> Pending Review </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main style="flex: 1;">
+        <div class="ts-container">
+          <div class="ts-header">
+            <div>
+              <h1>All Orders</h1>
+              <div class="ts-subtle">View and manage orders</div>
+            </div>
+            <button class="ts-btn ts-btn-primary">Create Order</button>
+          </div>
+
+          <!-- Page content here -->
+          <div class="ts-card">
+            <p>Your page content goes here...</p>
+          </div>
+
+          <div class="ts-footer">© 2026 Top Shelf Service LLC™. All rights reserved.</div>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>
 ```
 
@@ -917,6 +826,7 @@ Complete page layout with both navigation types.
 Use the app framework's dropdown component; keep styling consistent:
 
 **Styling Requirements:**
+
 - Dark surface (`var(--color-bg-elevated)`)
 - Slate border (`var(--color-border-primary)`)
 - Mist text (`var(--color-text-secondary)`)
@@ -925,14 +835,15 @@ Use the app framework's dropdown component; keep styling consistent:
 **Rule**: Dropdowns are for low-frequency actions only.
 
 Example structure (framework-agnostic):
+
 ```html
 <div class="dropdown-container">
-  <button class="ts-btn ts-btn-secondary ts-btn-small">
-    Options ▾
-  </button>
-  
+  <button class="ts-btn ts-btn-secondary ts-btn-small">Options ▾</button>
+
   <!-- Dropdown menu (positioned absolutely by framework) -->
-  <div class="dropdown-menu" style="
+  <div
+    class="dropdown-menu"
+    style="
     position: absolute;
     min-width: 200px;
     background: var(--color-bg-elevated);
@@ -940,30 +851,33 @@ Example structure (framework-agnostic):
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-lg);
     padding: var(--space-sm);
-  ">
-    <a href="#" class="dropdown-item" style="
+  "
+  >
+    <a
+      href="#"
+      class="dropdown-item"
+      style="
       display: block;
       padding: var(--space-sm) var(--space-md);
       color: var(--color-text-secondary);
       text-decoration: none;
       border-radius: var(--border-radius-sm);
       transition: all var(--transition-fast);
-    ">
+    "
+    >
       Edit
     </a>
-    <a href="#" class="dropdown-item">
-      Duplicate
-    </a>
+    <a href="#" class="dropdown-item"> Duplicate </a>
     <div class="ts-divider" style="margin: var(--space-sm) 0;"></div>
-    <a href="#" class="dropdown-item" style="color: var(--color-error);">
-      Delete
-    </a>
+    <a href="#" class="dropdown-item" style="color: var(--color-error);"> Delete </a>
   </div>
 </div>
 ```
 
 ────────────────────────────────────────
+
 ## 9) WHAT MAY VARY (FLEXIBILITY CONTRACT)
+
 ────────────────────────────────────────
 
 ### Allowed to Vary by Product
@@ -972,7 +886,7 @@ Example structure (framework-agnostic):
 ✅ **Content** (copy, workflows, data)  
 ✅ **Which templates you use**  
 ✅ **Layout composition** (how many cards, grids, lists per page)  
-✅ **Data displayed** (customer-specific fields, custom statuses)  
+✅ **Data displayed** (customer-specific fields, custom statuses)
 
 ### Not Allowed to Vary Without Updating the Standard
 
@@ -981,7 +895,7 @@ Example structure (framework-agnostic):
 ❌ **Core components** (button/card/input/list structure)  
 ❌ **Focus behavior** (green outline with glow)  
 ❌ **Touch targets** (minimum 40px height for interactive elements)  
-❌ **Spacing scale** (4px baseline grid)  
+❌ **Spacing scale** (4px baseline grid)
 
 ### If You Need a New Component
 
@@ -991,7 +905,9 @@ Example structure (framework-agnostic):
 4. **Document usage** - Add template to this file
 
 ────────────────────────────────────────
+
 ## 10) IMPLEMENTATION CHECKLIST
+
 ────────────────────────────────────────
 
 When building a new page:
@@ -1010,7 +926,9 @@ When building a new page:
 - [ ] Verify color contrast meets WCAG AA
 
 ────────────────────────────────────────
+
 ## 11) SUPPORT & EVOLUTION
+
 ────────────────────────────────────────
 
 ### Questions or Issues?

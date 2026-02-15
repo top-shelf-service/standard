@@ -10,11 +10,13 @@ This directory contains the core governance documents that define Top Shelf Serv
 ## Documents
 
 ### 1. [Engine vs Fuel](engine-vs-fuel.md)
+
 **Status**: Active | **Version**: 1.0.0 | **Owner**: Engineering Leadership
 
 Defines the architectural separation between reusable business logic (Engine) and client-specific configuration (Fuel). This is the foundational principle for all system design.
 
 **Key Topics:**
+
 - Core concept and definitions
 - Implementation patterns
 - Configuration management
@@ -25,11 +27,13 @@ Defines the architectural separation between reusable business logic (Engine) an
 ---
 
 ### 2. [Escalation Rules](escalation-rules.md)
+
 **Status**: Active | **Version**: 1.0.0 | **Owner**: Risk Management
 
 Framework for routing decisions, approvals, and exceptions through organizational hierarchies with appropriate timeouts and fallback mechanisms.
 
 **Key Topics:**
+
 - Escalation trigger types
 - Escalation levels (0-5)
 - Decision matrix and routing
@@ -41,11 +45,13 @@ Framework for routing decisions, approvals, and exceptions through organizationa
 ---
 
 ### 3. [Deterministic Behavior](deterministic-behavior.md)
+
 **Status**: Active | **Version**: 1.0.0 | **Owner**: Engineering Leadership
 
 Guidelines for ensuring systems produce consistent, reproducible results for compliance, testing, and debugging.
 
 **Key Topics:**
+
 - Core principles (pure functions, explicit dependencies)
 - Common non-deterministic sources
 - Handling necessary non-determinism
@@ -57,11 +63,13 @@ Guidelines for ensuring systems produce consistent, reproducible results for com
 ---
 
 ### 4. [Compliance-First Architecture](compliance-architecture.md)
+
 **Status**: Active | **Version**: 1.0.0 | **Owner**: Compliance Office
 
 Design philosophy where regulatory compliance and auditability are primary concerns integrated into every system layer from inception.
 
 **Key Topics:**
+
 - Architectural patterns (event sourcing, WAL, SoD)
 - Data classification and access control
 - Compliance requirements by domain (SOX, HIPAA, GDPR, CCPA, PCI-DSS)
@@ -99,6 +107,7 @@ Design philosophy where regulatory compliance and auditability are primary conce
 ```
 
 **Key Relationships:**
+
 - **Compliance-First** provides the overarching framework
 - **Engine vs Fuel** enables scalable, configurable compliance
 - **Deterministic Behavior** ensures reproducible audit trails
@@ -127,23 +136,23 @@ Each document follows semantic versioning:
 
 ### Review Cycle
 
-| Document | Review Frequency | Next Review |
-|----------|-----------------|-------------|
-| Engine vs Fuel | Annually | 2027-02-09 |
-| Escalation Rules | Quarterly | 2026-05-09 |
-| Deterministic Behavior | Annually | 2027-02-09 |
-| Compliance-First | Quarterly | 2026-05-09 |
+| Document               | Review Frequency | Next Review |
+| ---------------------- | ---------------- | ----------- |
+| Engine vs Fuel         | Annually         | 2027-02-09  |
+| Escalation Rules       | Quarterly        | 2026-05-09  |
+| Deterministic Behavior | Annually         | 2027-02-09  |
+| Compliance-First       | Quarterly        | 2026-05-09  |
 
 ## Compliance Matrix
 
-| Requirement | Engine/Fuel | Escalation | Deterministic | Compliance-First |
-|------------|-------------|------------|---------------|------------------|
-| SOX | ✓ | ✓✓ | ✓✓ | ✓✓ |
-| GDPR | ✓ | - | ✓ | ✓✓ |
-| HIPAA | ✓ | ✓ | ✓ | ✓✓ |
-| PCI-DSS | ✓ | ✓ | ✓ | ✓✓ |
-| Audit Trail | ✓ | ✓✓ | ✓✓ | ✓✓ |
-| Separation of Duties | ✓ | ✓✓ | - | ✓✓ |
+| Requirement          | Engine/Fuel | Escalation | Deterministic | Compliance-First |
+| -------------------- | ----------- | ---------- | ------------- | ---------------- |
+| SOX                  | ✓           | ✓✓         | ✓✓            | ✓✓               |
+| GDPR                 | ✓           | -          | ✓             | ✓✓               |
+| HIPAA                | ✓           | ✓          | ✓             | ✓✓               |
+| PCI-DSS              | ✓           | ✓          | ✓             | ✓✓               |
+| Audit Trail          | ✓           | ✓✓         | ✓✓            | ✓✓               |
+| Separation of Duties | ✓           | ✓✓         | -             | ✓✓               |
 
 Legend: ✓✓ Primary guidance | ✓ Supporting guidance | - Not applicable
 
@@ -151,13 +160,13 @@ Legend: ✓✓ Primary guidance | ✓ Supporting guidance | - Not applicable
 
 All personnel must complete training on applicable governance documents:
 
-| Role | Required Documents | Frequency |
-|------|-------------------|-----------|
-| All Engineers | All governance docs | Annually |
-| Product Managers | Engine/Fuel, Escalation | Annually |
-| Compliance Officers | All governance docs | Semi-annually |
-| QA/Test Engineers | Deterministic, Compliance-First | Annually |
-| Architects | All governance docs | Quarterly updates |
+| Role                | Required Documents              | Frequency         |
+| ------------------- | ------------------------------- | ----------------- |
+| All Engineers       | All governance docs             | Annually          |
+| Product Managers    | Engine/Fuel, Escalation         | Annually          |
+| Compliance Officers | All governance docs             | Semi-annually     |
+| QA/Test Engineers   | Deterministic, Compliance-First | Annually          |
+| Architects          | All governance docs             | Quarterly updates |
 
 ## Support and Questions
 

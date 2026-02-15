@@ -31,6 +31,7 @@ All work product created by Top Shelf Service LLC employees, contractors, or age
 ### Third-Party Software
 
 Usage of third-party software must comply with:
+
 - License terms and conditions
 - Attribution requirements
 - Compatibility with our proprietary license
@@ -43,6 +44,7 @@ Usage of third-party software must comply with:
 See [Compliance Architecture](../governance/compliance-architecture.md) for full data classification framework.
 
 **Summary:**
+
 - **Public**: No restrictions
 - **Internal**: Employees only
 - **Confidential**: Need-to-know basis
@@ -64,6 +66,7 @@ See [Compliance Architecture](../governance/compliance-architecture.md) for full
 **Applicability**: Processing of EU residents' personal data
 
 **Requirements:**
+
 - Legal basis for processing
 - Privacy by design and by default
 - Data protection impact assessments
@@ -73,6 +76,7 @@ See [Compliance Architecture](../governance/compliance-architecture.md) for full
 - Data portability
 
 **Implementation:**
+
 - Privacy policy and consent management
 - Data processing agreements with processors
 - International data transfer safeguards
@@ -83,6 +87,7 @@ See [Compliance Architecture](../governance/compliance-architecture.md) for full
 **Applicability**: California residents' personal information
 
 **Requirements:**
+
 - Privacy notice at collection
 - Right to know what data is collected
 - Right to delete personal information
@@ -94,6 +99,7 @@ See [Compliance Architecture](../governance/compliance-architecture.md) for full
 **Applicability**: If handling protected health information (PHI)
 
 **Requirements:**
+
 - Business associate agreements
 - Administrative, physical, and technical safeguards
 - Breach notification procedures
@@ -104,6 +110,7 @@ See [Compliance Architecture](../governance/compliance-architecture.md) for full
 **Applicability**: If processing payment card information
 
 **Requirements:**
+
 - Secure network and systems
 - Cardholder data protection
 - Vulnerability management
@@ -118,6 +125,7 @@ See [Compliance Architecture](../governance/compliance-architecture.md) for full
 Standard terms for all client engagements:
 
 **Key Provisions:**
+
 - Scope of services
 - Deliverables and timelines
 - Intellectual property rights
@@ -131,6 +139,7 @@ Standard terms for all client engagements:
 Required when processing personal data on behalf of clients:
 
 **Key Provisions:**
+
 - Processing instructions
 - Data security measures
 - Sub-processor provisions
@@ -144,6 +153,7 @@ Required when processing personal data on behalf of clients:
 Performance commitments:
 
 **Typical Metrics:**
+
 - System availability (e.g., 99.9% uptime)
 - Response times (e.g., < 500ms p99)
 - Support response times (e.g., 1 hour for critical issues)
@@ -154,10 +164,12 @@ Performance commitments:
 Protects confidential information:
 
 **Types:**
+
 - Unilateral: One party discloses to another
 - Mutual: Both parties exchange confidential information
 
 **Key Terms:**
+
 - Definition of confidential information
 - Permitted uses
 - Exclusions (public knowledge, independently developed)
@@ -169,12 +181,14 @@ Protects confidential information:
 ### Information Security Program
 
 **Objectives:**
+
 - Protect confidentiality, integrity, and availability of data
 - Prevent unauthorized access
 - Detect and respond to security incidents
 - Comply with regulatory requirements
 
 **Components:**
+
 1. **Risk Assessment**: Identify and assess security risks
 2. **Security Controls**: Implement technical and organizational measures
 3. **Incident Response**: Plan and procedures for security incidents
@@ -185,11 +199,13 @@ Protects confidential information:
 ### Vendor Management Program
 
 **Objectives:**
+
 - Ensure third-party compliance
 - Manage vendor risk
 - Protect company data with vendors
 
 **Process:**
+
 1. **Due Diligence**: Assess vendor before engagement
 2. **Contract**: Include security and compliance requirements
 3. **Monitoring**: Ongoing vendor performance monitoring
@@ -200,11 +216,13 @@ Protects confidential information:
 ### Business Continuity and Disaster Recovery
 
 **Objectives:**
+
 - Ensure business operations continuity
 - Minimize downtime and data loss
 - Protect critical assets
 
 **Components:**
+
 1. **Business Impact Analysis**: Identify critical functions
 2. **Recovery Strategies**: Define recovery procedures
 3. **Plan Documentation**: Document all procedures
@@ -212,6 +230,7 @@ Protects confidential information:
 5. **Maintenance**: Keep plans current
 
 **Key Metrics:**
+
 - **RTO (Recovery Time Objective)**: Maximum acceptable downtime
 - **RPO (Recovery Point Objective)**: Maximum acceptable data loss
 
@@ -219,15 +238,15 @@ Protects confidential information:
 
 ### Retention Schedule
 
-| Data Type | Retention Period | Legal Basis |
-|-----------|-----------------|-------------|
-| Financial Records | 7 years | IRS, SOX |
-| Personnel Records | 7 years after termination | EEOC |
-| Contracts | 7 years after expiration | Statute of limitations |
-| Audit Logs | 7 years | SOX, HIPAA |
-| Customer Data | Per contract or until deletion request | GDPR, CCPA |
-| Tax Records | 7 years | IRS |
-| Health Records | 6 years | HIPAA |
+| Data Type         | Retention Period                       | Legal Basis            |
+| ----------------- | -------------------------------------- | ---------------------- |
+| Financial Records | 7 years                                | IRS, SOX               |
+| Personnel Records | 7 years after termination              | EEOC                   |
+| Contracts         | 7 years after expiration               | Statute of limitations |
+| Audit Logs        | 7 years                                | SOX, HIPAA             |
+| Customer Data     | Per contract or until deletion request | GDPR, CCPA             |
+| Tax Records       | 7 years                                | IRS                    |
+| Health Records    | 6 years                                | HIPAA                  |
 
 ### Secure Disposal
 
@@ -244,6 +263,7 @@ When retention period expires:
 ### Incident Response Plan
 
 **Phases:**
+
 1. **Detection**: Identify potential breach
 2. **Containment**: Limit scope of breach
 3. **Investigation**: Determine extent and impact
@@ -253,16 +273,17 @@ When retention period expires:
 
 ### Notification Requirements
 
-| Jurisdiction | Timeline | Threshold | Recipients |
-|--------------|----------|-----------|------------|
-| GDPR | 72 hours | Personal data breach | Supervisory authority, data subjects |
-| CCPA | Without unreasonable delay | Unencrypted PI | California AG, affected individuals |
-| HIPAA | 60 days | Unsecured PHI | HHS, affected individuals, media (if >500) |
-| All US States | Varies by state | PII | State AG, affected residents |
+| Jurisdiction  | Timeline                   | Threshold            | Recipients                                 |
+| ------------- | -------------------------- | -------------------- | ------------------------------------------ |
+| GDPR          | 72 hours                   | Personal data breach | Supervisory authority, data subjects       |
+| CCPA          | Without unreasonable delay | Unencrypted PI       | California AG, affected individuals        |
+| HIPAA         | 60 days                    | Unsecured PHI        | HHS, affected individuals, media (if >500) |
+| All US States | Varies by state            | PII                  | State AG, affected residents               |
 
 ### Notification Content
 
 Must include:
+
 - Nature of the breach
 - Types of data involved
 - Approximate number of affected individuals
@@ -275,12 +296,14 @@ Must include:
 ### Required Training
 
 **All Personnel:**
+
 - Annual information security training
 - Annual privacy training
 - Code of conduct
 - Acceptable use policy
 
 **Role-Specific:**
+
 - Developers: Secure coding practices
 - System administrators: Security hardening
 - Managers: Incident response procedures
@@ -288,29 +311,32 @@ Must include:
 
 ### Certification
 
-| Certification | Audience | Frequency |
-|---------------|----------|-----------|
-| Security Awareness | All employees | Annual |
-| HIPAA | PHI handlers | Annual |
-| PCI-DSS | Payment handlers | Annual |
-| SOC 2 | Operations team | As needed |
+| Certification      | Audience         | Frequency |
+| ------------------ | ---------------- | --------- |
+| Security Awareness | All employees    | Annual    |
+| HIPAA              | PHI handlers     | Annual    |
+| PCI-DSS            | Payment handlers | Annual    |
+| SOC 2              | Operations team  | As needed |
 
 ## Monitoring and Enforcement
 
 ### Compliance Audits
 
 **Internal Audits:**
+
 - Quarterly: High-risk areas
 - Semi-annual: Medium-risk areas
 - Annual: Comprehensive review
 
 **External Audits:**
+
 - Annual: SOC 2 Type II
 - As needed: Client audits, regulatory examinations
 
 ### Metrics and Reporting
 
 **Key Compliance Metrics:**
+
 - Security incidents (count, severity, time-to-resolution)
 - Policy violations
 - Training completion rates
@@ -319,6 +345,7 @@ Must include:
 - Vendor assessments completed
 
 **Reporting:**
+
 - Monthly: Compliance metrics to management
 - Quarterly: Board reporting
 - Annual: Comprehensive compliance report
@@ -326,6 +353,7 @@ Must include:
 ### Enforcement
 
 **Violation Consequences:**
+
 - **Minor**: Written warning, retraining
 - **Moderate**: Performance improvement plan
 - **Serious**: Suspension, demotion

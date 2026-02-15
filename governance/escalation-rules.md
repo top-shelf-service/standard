@@ -22,6 +22,7 @@ The Escalation Rules Framework defines how decisions, approvals, and exceptions 
 Triggered when a quantitative value exceeds defined limits.
 
 **Examples:**
+
 - Transaction amount > $50,000
 - Risk score > 85
 - Processing time > 24 hours
@@ -32,6 +33,7 @@ Triggered when a quantitative value exceeds defined limits.
 Triggered by assessed risk factors or combinations thereof.
 
 **Examples:**
+
 - Customer flagged in sanctions list
 - Unusual transaction pattern detected
 - Multiple validation failures
@@ -42,6 +44,7 @@ Triggered by assessed risk factors or combinations thereof.
 Triggered when standard processing cannot proceed.
 
 **Examples:**
+
 - Required data missing
 - System integration failure
 - Manual override requested
@@ -52,6 +55,7 @@ Triggered when standard processing cannot proceed.
 Triggered after elapsed time without resolution.
 
 **Examples:**
+
 - Pending approval > 4 hours
 - Open ticket > 2 business days
 - Awaiting response > 24 hours
@@ -60,36 +64,42 @@ Triggered after elapsed time without resolution.
 ## Escalation Levels
 
 ### Level 0: Automated Processing
+
 - **Authority**: System automation
 - **Scope**: Standard, low-risk operations
 - **Response Time**: Immediate
 - **Examples**: Routine validations, standard approvals
 
 ### Level 1: Team Lead Review
+
 - **Authority**: Team Lead or Senior Analyst
 - **Scope**: Minor exceptions, moderate-risk items
 - **Response Time**: 2 hours (business hours)
 - **Examples**: Threshold overrides up to 20%, data quality issues
 
 ### Level 2: Department Manager
+
 - **Authority**: Department Manager
 - **Scope**: Significant exceptions, elevated risk
 - **Response Time**: 4 hours (business hours)
 - **Examples**: Policy exceptions, high-value transactions
 
 ### Level 3: Director Approval
+
 - **Authority**: Director or VP
 - **Scope**: Major policy changes, high-risk decisions
 - **Response Time**: 8 hours (business hours)
 - **Examples**: New client onboarding, contract amendments
 
 ### Level 4: Executive Decision
+
 - **Authority**: C-Level Executive
 - **Scope**: Strategic decisions, regulatory matters
 - **Response Time**: 24 hours
 - **Examples**: Regulatory exceptions, major risk acceptance
 
 ### Level 5: Board/Legal
+
 - **Authority**: Board of Directors or Legal Counsel
 - **Scope**: Governance, legal, fiduciary matters
 - **Response Time**: Per board schedule
@@ -150,46 +160,52 @@ Triggered after elapsed time without resolution.
 
 Common escalation scenarios and their routing:
 
-| Scenario | Trigger | Level | Role | Timeout |
-|----------|---------|-------|------|---------|
-| Amount $10K-$50K | Threshold | 1 | Team Lead | 2h |
-| Amount $50K-$100K | Threshold | 2 | Dept Manager | 4h |
-| Amount $100K-$500K | Threshold | 3 | Director | 8h |
-| Amount $500K+ | Threshold | 4 | VP/CFO | 24h |
-| Risk Score 70-84 | Risk | 1 | Team Lead | 2h |
-| Risk Score 85-94 | Risk | 2 | Dept Manager | 4h |
-| Risk Score 95+ | Risk | 3 | Director | 8h |
-| Sanctions Hit | Risk | 3 | Director + Compliance | 1h |
-| System Error | Exception | 1 | Team Lead + IT | 1h |
-| Data Missing | Exception | 1 | Team Lead | 2h |
-| Policy Override | Exception | 2 | Dept Manager | 4h |
-| SLA at 80% | Time | 1 | Team Lead | 1h |
-| SLA at 90% | Time | 2 | Dept Manager | 30min |
-| SLA Breach | Time | 3 | Director | Immediate |
+| Scenario           | Trigger   | Level | Role                  | Timeout   |
+| ------------------ | --------- | ----- | --------------------- | --------- |
+| Amount $10K-$50K   | Threshold | 1     | Team Lead             | 2h        |
+| Amount $50K-$100K  | Threshold | 2     | Dept Manager          | 4h        |
+| Amount $100K-$500K | Threshold | 3     | Director              | 8h        |
+| Amount $500K+      | Threshold | 4     | VP/CFO                | 24h       |
+| Risk Score 70-84   | Risk      | 1     | Team Lead             | 2h        |
+| Risk Score 85-94   | Risk      | 2     | Dept Manager          | 4h        |
+| Risk Score 95+     | Risk      | 3     | Director              | 8h        |
+| Sanctions Hit      | Risk      | 3     | Director + Compliance | 1h        |
+| System Error       | Exception | 1     | Team Lead + IT        | 1h        |
+| Data Missing       | Exception | 1     | Team Lead             | 2h        |
+| Policy Override    | Exception | 2     | Dept Manager          | 4h        |
+| SLA at 80%         | Time      | 1     | Team Lead             | 1h        |
+| SLA at 90%         | Time      | 2     | Dept Manager          | 30min     |
+| SLA Breach         | Time      | 3     | Director              | Immediate |
 
 ## Approval Requirements
 
 ### Single Approval
+
 Standard for most escalations. One authorized person approves.
 
 **Use When:**
+
 - Routine exceptions
 - Single point of accountability clear
 - Low to moderate risk
 
 ### Dual Approval
+
 Two authorized persons must approve independently.
 
 **Use When:**
+
 - High-value transactions ($100K+)
 - High-risk score (90+)
 - Sensitive data access
 - Policy exceptions
 
 ### Committee Approval
+
 Multiple stakeholders review and consensus required.
 
 **Use When:**
+
 - Cross-functional impact
 - Strategic decisions
 - Regulatory matters
@@ -198,24 +214,28 @@ Multiple stakeholders review and consensus required.
 ## Timeout and Fallback Behavior
 
 ### Escalate (Default)
+
 If no response within timeout, automatically escalate to next level.
 
 **Risk**: May overwhelm higher levels  
 **Benefit**: Ensures resolution
 
 ### Park
+
 Move to holding queue for manual review.
 
 **Risk**: Items may age  
 **Benefit**: Prevents unwanted auto-escalation
 
 ### Reject
+
 Automatically reject if not approved within timeout.
 
 **Risk**: May block legitimate requests  
 **Benefit**: Enforces timely review
 
 ### Approve
+
 Automatically approve if not rejected within timeout.
 
 **Risk**: Security/compliance risk  
@@ -235,18 +255,22 @@ At each escalation event:
 ## Bypass and Override
 
 ### Authorized Override
+
 Designated personnel can bypass normal escalation with justification.
 
 **Requirements:**
+
 - Must have override authority
 - Must provide written justification
 - Logged as high-priority audit event
 - Reviewed in quarterly audits
 
 ### Emergency Override
+
 For critical business continuity situations.
 
 **Requirements:**
+
 - Must be designated emergency contact
 - Must document business justification
 - Requires post-event review within 24 hours
@@ -257,6 +281,7 @@ For critical business continuity situations.
 ### Logging Requirements
 
 Every escalation must log:
+
 - Timestamp of trigger
 - Trigger conditions and values
 - Escalation level reached

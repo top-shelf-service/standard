@@ -9,6 +9,7 @@ Last Updated: 2026-02-13
 This repository contains the standard operating procedures, brand assets, design system, and knowledge packs for the TopShelf ecosystem.
 
 **Purpose**: Single source of truth for:
+
 - 🎨 Brand design system and UI components
 - 📋 Governance policies and procedures
 - ⚖️ Legal and compliance frameworks
@@ -20,6 +21,7 @@ This repository contains the standard operating procedures, brand assets, design
 ### Brand Assets
 
 Located in `brand/` and `design-system/`:
+
 - **UI Templates**: Copy/paste HTML templates for common page types
 - **CSS Variables**: Dark-mode color system and design tokens
 - **Typography**: Font specifications and usage guidelines
@@ -28,6 +30,7 @@ Located in `brand/` and `design-system/`:
 ### Governance Documentation
 
 Located in `governance/`:
+
 - **Engine vs Fuel**: Separation of business logic and configuration
 - **Escalation Rules**: Decision routing framework
 - **Deterministic Behavior**: Guidelines for reproducible systems
@@ -36,6 +39,7 @@ Located in `governance/`:
 ### Legal & Compliance
 
 Located in `legal/`:
+
 - Compliance requirements (SOX, GDPR, CCPA, HIPAA, PCI-DSS)
 - Data retention policies
 - Breach notification procedures
@@ -44,6 +48,7 @@ Located in `legal/`:
 ### AI Agent Decision Trees
 
 Located in `ai-agent/`:
+
 - JSON schema for decision trees
 - Example decision tree structures
 - Integration guidelines
@@ -112,7 +117,7 @@ Applications should ingest the artifacts generated in the `dist/` folder:
 
 ```javascript
 // Example: Load decision tree
-import decisionTree from '@topshelf/standard/dist/decision-trees.json';
+import decisionTree from "@topshelf/standard/dist/decision-trees.json";
 ```
 
 ### SQLite Databases
@@ -138,6 +143,7 @@ curl http://localhost:3000/api/query?q=escalation+rules
 ### Change Control
 
 Changes to "Core" policies must:
+
 1. Pass the `pnpm doctor` health check
 2. Be reviewed by appropriate stakeholders
 3. Pass CI validation
@@ -146,6 +152,7 @@ Changes to "Core" policies must:
 ### Version Control
 
 This repository uses:
+
 - Git for version control
 - GitHub for hosting
 - Semantic versioning for releases
@@ -153,6 +160,7 @@ This repository uses:
 ### Access Control
 
 Repository access is controlled via GitHub permissions:
+
 - **Read**: All team members
 - **Write**: Developers and content authors
 - **Admin**: Platform team
@@ -164,6 +172,7 @@ Repository access is controlled via GitHub permissions:
 This repo does **not** publish to npm or pnpm registries.
 
 Artifacts are distributed via:
+
 - **Git Tags**: Version releases
 - **GitHub Releases**: Downloadable `.tar.gz` archives
 - **CI Builds**: Auto-generated `dist/` folder
