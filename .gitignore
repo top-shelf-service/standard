@@ -47,6 +47,12 @@ vendor/
 # pnpm local store
 .pnpm-store/
 
+# Local tooling outputs
+.codex/
+repomix-output.md
+repomix-output.xml
+stand.md
+
 # Test coverage
 coverage/
 .nyc_output/
