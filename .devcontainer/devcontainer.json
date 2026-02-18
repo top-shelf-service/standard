@@ -1,11 +1,10 @@
 {
   "name": "standard",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
-  "features": {
-  },
+  "features": {},
   "customizations": {
     "vscode": {
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+      "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
       }

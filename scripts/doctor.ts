@@ -6,7 +6,7 @@ console.log("🔍 TopShelf Doctor: Diagnosing...");
 try {
   // 1. Environment Health
   console.log("🧬 Checking environment...");
-  execSync("ts-node scripts/health/checks.ts doctor", { stdio: "inherit" });
+  execSync("pnpm exec ts-node scripts/health/checks.ts doctor", { stdio: "inherit" });
 
   // 2. Linting & Formatting
   console.log("🧹 Checking linting & formatting...");
@@ -22,7 +22,7 @@ try {
   try {
     const { existsSync } = require("fs");
     if (existsSync("engine/validators/run-all.ts")) {
-      execSync("ts-node engine/validators/run-all.ts", { stdio: "inherit" });
+      execSync("pnpm exec ts-node engine/validators/run-all.ts", { stdio: "inherit" });
     } else {
       console.log("ℹ️  No validators found yet (optional)");
     }

@@ -33,24 +33,24 @@ export default [
         process: "readonly",
         require: "readonly",
         module: "readonly",
-        __dirname: "readonly"
-      }
+        __dirname: "readonly",
+      },
     },
     plugins: {
-      "@typescript-eslint": tsPlugin
+      "@typescript-eslint": tsPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          caughtErrors: "none"
-        }
+          caughtErrors: "none",
+        },
       ],
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-explicit-any": "warn",
-      "no-console": "off"
-    }
+      "no-console": "off",
+    },
   },
   {
     files: ["**/*.test.ts", "tests/**/*.ts"],
@@ -58,20 +58,20 @@ export default [
       globals: {
         describe: "readonly",
         it: "readonly",
-        expect: "readonly"
+        expect: "readonly",
       },
     },
     rules: {
-      "@typescript-eslint/no-require-imports": "off"
-    }
+      "@typescript-eslint/no-require-imports": "off",
+    },
   },
   {
     files: ["**/*.cjs"],
     languageOptions: {
       globals: {
         module: "readonly",
-        require: "readonly"
+        require: "readonly",
       },
-    }
-  }
+    },
+  },
 ];
