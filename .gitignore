@@ -17,3 +17,11 @@ dist/
 
 # Dependencies
 node_modules/
+
+# Local tool state
+.codex/
+.pnpm-store/
+
+# Generated analysis artifacts
+repomix-output.md
+repomix-output.xml
