@@ -1,7 +1,7 @@
 {
   "name": "topshelf-standard-dev",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
-  "postCreateCommand": "corepack enable && corepack prepare pnpm@9.15.5 --activate",
+  "postCreateCommand": "corepack prepare pnpm@9.15.5 --activate",
   "customizations": {
     "vscode": {
       "extensions": [
