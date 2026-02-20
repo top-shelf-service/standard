@@ -1,6 +1,19 @@
 // engine/mesh/boot.ts
-// MESH BOOT — Must run BEFORE any validator, indexer, compiler, or doctor.
-// This is the LOOP GUARD for all circular dependencies.
+/**
+ * Mesh boot process for TSSAS runtime execution layer.
+ *
+ * Initializes the runtime mesh in 7 phases:
+ * 1. Load and validate schema (no mesh dependency - LOOP-04 guard)
+ * 2. Load execution personas from YAML files
+ * 3. Register personas into mesh registry
+ * 4. Verify registry not empty (LOOP-05 guard)
+ * 5. Bind capabilities to their handler modules
+ * 6. Validate dependency graph for circular dependencies
+ * 7. Check boot-blocker personas didn't fail
+ *
+ * Must run BEFORE any validator, indexer, compiler, or doctor.
+ * This is the LOOP GUARD for all circular dependencies (LOOPS 1-5).
+ */
 
 import { resolve } from 'path';
 import { PersonaRegistry } from './persona-registry.js';
@@ -10,6 +23,25 @@ import type { MeshBootResult } from './types.js';
 
 const PROJECT_ROOT = resolve(process.cwd());
 
+/**
+ * Initialize the TSSAS runtime mesh.
+ *
+ * Loads all execution personas, validates their configuration,
+ * binds them to handler modules, and creates a router for capability invocation.
+ *
+ * @returns Promise resolving to mesh router and boot result
+ * @throws Never - catches all errors and returns them in boot result
+ *
+ * @example
+ * ```typescript
+ * const { router, result } = await bootMesh();
+ * if (!result.success) {
+ *   console.error('Mesh boot failed:', result.errors);
+ *   process.exit(1);
+ * }
+ * await router.invoke('qa.validate.schemas');
+ * ```
+ */
 export async function bootMesh(): Promise<{
   router: MeshRouter;
   result: MeshBootResult;
@@ -148,7 +180,19 @@ export async function bootMesh(): Promise<{
   return { router, result };
 }
 
-function buildFailResult(errors: string[], startTime: number): MeshBootResult {
+/**
+ * Build a failed mesh boot result.
+ *
+ * Used when boot fails before acquiring router/registry state.
+ *
+ * @param errors - Array of error messages encountered
+ * @param startTime - Timestamp when boot started
+ * @returns MeshBootResult with success=false and provided errors
+ */
+function buildFailResult(
+  errors: string[],
+  startTime: number
+): MeshBootResult {
   return {
     success: false,
     personas_loaded: 0,
@@ -162,6 +206,7 @@ function buildFailResult(errors: string[], startTime: number): MeshBootResult {
 }
 
 // ─── CLI ENTRY POINT ───
+// Allow this file to be run directly as a script
 if (
   import.meta.url === `file://${process.argv[1]}` ||
   process.argv[1]?.endsWith('mesh/boot.ts') ||
