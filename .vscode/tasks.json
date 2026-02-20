@@ -1,40 +1,113 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "agent-env-watch-auto",
-			"type": "shell",
-			"command": "bash",
-			"args": [
-				"scripts/agents/environment/watch-start.sh"
-			],
-			"runOptions": {
-				"runOn": "folderOpen"
-			},
-			"isBackground": false,
-			"presentation": {
-				"reveal": "never",
-				"panel": "dedicated"
-			}
-		},
-		{
-			"label": "solo-release",
-			"type": "shell",
-			"command": "bash",
-			"args": [
-				"scripts/dev/solo-release.sh"
-			],
-			"isBackground": false
-		},
-		{
-			"label": "agent-env-coding",
-			"type": "shell",
-			"command": "bash",
-			"args": [
-				"scripts/dev/agent-env-ops.sh",
-				"coding"
-			],
-			"isBackground": false
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "mesh:boot",
+      "type": "shell",
+      "command": "npx tsx engine/mesh/boot.ts",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": "$tsc",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      },
+      "detail": "Boot the TSSAS runtime mesh — must pass before any other task"
+    },
+    {
+      "label": "mesh:validate",
+      "type": "shell",
+      "command": "npx tsx engine/mesh/boot.ts && npx tsx -e \"import{bootMesh}from'./engine/mesh/boot.js';const{router}=await bootMesh();const r=await router.invokeAll();console.log(JSON.stringify(r,null,2));process.exit(r.every(x=>x.success)?0:1)\"",
+      "group": "test",
+      "dependsOn": ["mesh:boot"],
+      "problemMatcher": "$tsc",
+      "detail": "Run all mesh capabilities in dependency order"
+    },
+    {
+      "label": "validate:all",
+      "type": "shell",
+      "command": "pnpm run validate:all",
+      "group": "test",
+      "dependsOn": ["mesh:boot"],
+      "problemMatcher": "$tsc",
+      "detail": "Run full validation suite (requires mesh boot)"
+    },
+    {
+      "label": "build:packs",
+      "type": "shell",
+      "command": "pnpm run build:packs",
+      "group": "build",
+      "dependsOn": ["mesh:boot"],
+      "problemMatcher": "$tsc",
+      "detail": "Build distribution packs (requires mesh boot)"
+    },
+    {
+      "label": "doctor",
+      "type": "shell",
+      "command": "pnpm run doctor",
+      "group": "test",
+      "dependsOn": ["mesh:boot"],
+      "problemMatcher": "$tsc",
+      "detail": "Run health checks (requires mesh boot)"
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "pnpm test",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": "$tsc",
+      "detail": "Run test suite"
+    },
+    {
+      "label": "ci:full",
+      "type": "shell",
+      "command": "npx tsx engine/mesh/boot.ts && pnpm run validate:all && pnpm run build:packs && pnpm run doctor && pnpm test",
+      "group": "test",
+      "problemMatcher": "$tsc",
+      "detail": "Full CI pipeline — mesh boot → validate → build → doctor → test"
+    },
+    {
+      "label": "agent-env-watch-auto",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/agents/environment/watch-start.sh"
+      ],
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "never",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "solo-release",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/dev/solo-release.sh"
+      ],
+      "isBackground": false
+    },
+    {
+      "label": "agent-env-coding",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/dev/agent-env-ops.sh",
+        "coding"
+      ],
+      "isBackground": false
+    }
+  ]
 }

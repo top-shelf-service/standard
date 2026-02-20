@@ -8,12 +8,16 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "doctor": "tsx scripts/doctor.ts",
-    "build:index": "tsx scripts/build-index.ts",
-    "build:packs": "tsx engine/compiler/build-pack.ts",
-    "validate:all": "tsx engine/validators/run-all.ts"
+    "mesh:boot": "tsx engine/mesh/boot.ts",
+    "doctor": "pnpm mesh:boot && tsx scripts/doctor.ts",
+    "build:index": "pnpm mesh:boot && tsx scripts/build-index.ts",
+    "build:packs": "pnpm mesh:boot && tsx engine/compiler/build-pack.ts",
+    "validate:all": "pnpm mesh:boot && tsx engine/validators/run-all.ts"
   },
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "ajv": "^8.12.0",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.19.2",
+    "yaml": "^2.4.1"
   }
 }

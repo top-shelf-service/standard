@@ -1,8 +1,54 @@
 {
-	"folders": [
-		{
-			"path": "/home/patrick/standard"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "name": "Standard Root",
+      "path": "."
+    },
+    {
+      "name": "Engine",
+      "path": "engine"
+    },
+    {
+      "name": "Governance",
+      "path": "governance"
+    },
+    {
+      "name": "AI Agents",
+      "path": "ai-agent"
+    },
+    {
+      "name": "Tests",
+      "path": "tests"
+    }
+  ],
+  "settings": {
+    "yaml.schemas": {
+      "./ai-agent/schema/execution-persona.schema.json": "ai-agent/runtime/personas/*.exec.persona.yaml"
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Mesh Boot (Workspace)",
+        "type": "shell",
+        "command": "npx tsx engine/mesh/boot.ts",
+        "options": {
+          "cwd": "${workspaceFolder:Standard Root}"
+        },
+        "problemMatcher": "$tsc"
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [],
+    "compounds": [
+      {
+        "name": "Full CI Debug",
+        "configurations": ["Debug Mesh Boot"],
+        "preLaunchTask": "mesh:boot"
+      }
+    ]
+  }
 }

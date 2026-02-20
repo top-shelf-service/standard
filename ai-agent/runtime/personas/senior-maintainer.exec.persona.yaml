@@ -1,0 +1,67 @@
+id: senior-maintainer-exec
+derived_from: senior-maintainer
+version: "1.0.0"
+
+persona:
+  name: "Alex Chen"
+  title: "Senior Framework Maintainer"
+  role_type: router
+
+execution:
+  capabilities:
+    - id: maintain.index.build
+      name: "Build Knowledge Index"
+      handler: "compiler/build-index.ts"
+      timeout_ms: 30000
+      retry:
+        max_attempts: 2
+        backoff_ms: 2000
+      depends_on:
+        - qa.validate.schemas
+        - qa.validate.agents
+
+    - id: maintain.pack.build
+      name: "Build Distribution Pack"
+      handler: "compiler/build-pack.ts"
+      timeout_ms: 30000
+      retry:
+        max_attempts: 2
+        backoff_ms: 2000
+      depends_on:
+        - maintain.index.build
+        - governance.stubs.enforce
+
+    - id: maintain.doctor.run
+      name: "Run Doctor Health Check"
+      handler: "mesh/doctor.ts"
+      timeout_ms: 30000
+      retry:
+        max_attempts: 1
+        backoff_ms: 1000
+      depends_on:
+        - env.node.validate
+        - env.pnpm.enforce
+
+    - id: maintain.report.generate
+      name: "Generate Validation Report"
+      handler: "mesh/report.ts"
+      timeout_ms: 15000
+      retry:
+        max_attempts: 1
+        backoff_ms: 500
+      depends_on:
+        - qa.validate.schemas
+
+  invoke_mode: async
+  mesh_priority: 50
+  runtime_enforced: false
+  boot_blocker: false
+  mesh_scope: global
+
+vscode:
+  task_group: build
+  problem_matcher: "$tsc"
+  status_bar:
+    text: "$(tools) Maintainer"
+    tooltip: "Senior Maintainer — Alex Chen"
+    priority: 80

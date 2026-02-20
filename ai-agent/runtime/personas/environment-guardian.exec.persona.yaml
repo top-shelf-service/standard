@@ -1,0 +1,71 @@
+id: environment-guardian-exec
+derived_from: environment-guardian
+version: "1.0.0"
+
+persona:
+  name: "Dev Patel"
+  title: "Platform Reliability Engineer"
+  role_type: enforcer
+
+execution:
+  capabilities:
+    - id: env.node.validate
+      name: "Node Version Validation"
+      handler: "validators/node-version.ts"
+      timeout_ms: 5000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+    - id: env.pnpm.enforce
+      name: "pnpm Exclusivity Enforcement"
+      handler: "validators/pnpm-enforce.ts"
+      timeout_ms: 5000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+    - id: env.lockfile.sync
+      name: "Lockfile Sync Check"
+      handler: "validators/lockfile-sync.ts"
+      timeout_ms: 10000
+      retry:
+        max_attempts: 1
+        backoff_ms: 1000
+      depends_on:
+        - env.pnpm.enforce
+
+    - id: env.vars.validate
+      name: "Environment Variable Validation"
+      handler: "validators/env-vars.ts"
+      timeout_ms: 5000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+    - id: env.workspace.validate
+      name: "VS Code Workspace Integrity"
+      handler: "validators/workspace-check.ts"
+      timeout_ms: 5000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on:
+        - env.pnpm.enforce
+
+  invoke_mode: sync
+  mesh_priority: 0
+  runtime_enforced: true
+  boot_blocker: true
+  mesh_scope: global
+
+vscode:
+  task_group: mesh
+  problem_matcher: "$tsc"
+  status_bar:
+    text: "$(server-environment) Env"
+    tooltip: "Environment Guardian — Dev Patel"
+    priority: 100

@@ -1,0 +1,90 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Mesh Boot",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--loader", "tsx/esm"],
+      "args": ["engine/mesh/boot.ts"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug Validate All",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--loader", "tsx/esm"],
+      "args": ["engine/validators/run-all.ts"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "mesh:boot",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug Build Packs",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--loader", "tsx/esm"],
+      "args": ["engine/compiler/build-pack.ts"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "mesh:boot",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug Doctor",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--loader", "tsx/esm"],
+      "args": ["scripts/doctor.ts"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "preLaunchTask": "mesh:boot",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Debug Single Capability",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--loader", "tsx/esm"],
+      "args": ["engine/mesh/invoke-single.ts", "${input:capabilityId}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "capabilityId",
+      "type": "pickString",
+      "description": "Select capability to invoke",
+      "options": [
+        "governance.version.check",
+        "governance.inheritance.validate",
+        "governance.stubs.enforce",
+        "governance.breaking.detect",
+        "governance.checkpoint.create",
+        "qa.validate.schemas",
+        "qa.validate.agents",
+        "qa.validate.patterns",
+        "qa.test.determinism",
+        "qa.test.coverage",
+        "security.deps.audit",
+        "security.secrets.scan",
+        "security.license.check",
+        "security.injection.scan",
+        "env.node.validate",
+        "env.pnpm.enforce",
+        "env.lockfile.sync",
+        "env.vars.validate",
+        "env.workspace.validate",
+        "maintain.index.build",
+        "maintain.pack.build",
+        "maintain.doctor.run",
+        "maintain.report.generate"
+      ]
+    }
+  ]
+}

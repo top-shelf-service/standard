@@ -1,0 +1,72 @@
+id: qa-engineer-exec
+derived_from: qa-engineer
+version: "1.0.0"
+
+persona:
+  name: "Ria Vasquez"
+  title: "Senior Quality Architect"
+  role_type: validator
+
+execution:
+  capabilities:
+    - id: qa.validate.schemas
+      name: "Schema Validation"
+      handler: "validators/schema-validate.ts"
+      timeout_ms: 15000
+      retry:
+        max_attempts: 1
+        backoff_ms: 500
+      depends_on: []
+
+    - id: qa.validate.agents
+      name: "Agent Definition Validation"
+      handler: "validators/agent-validate.ts"
+      timeout_ms: 15000
+      retry:
+        max_attempts: 1
+        backoff_ms: 500
+      depends_on:
+        - qa.validate.schemas
+
+    - id: qa.validate.patterns
+      name: "Pattern Validation"
+      handler: "validators/pattern-validate.ts"
+      timeout_ms: 10000
+      retry:
+        max_attempts: 1
+        backoff_ms: 500
+      depends_on:
+        - qa.validate.schemas
+
+    - id: qa.test.determinism
+      name: "Determinism Verification"
+      handler: "validators/determinism-check.ts"
+      timeout_ms: 20000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+    - id: qa.test.coverage
+      name: "Coverage Analysis"
+      handler: "validators/coverage-check.ts"
+      timeout_ms: 60000
+      retry:
+        max_attempts: 1
+        backoff_ms: 2000
+      depends_on:
+        - qa.validate.agents
+
+  invoke_mode: sync
+  mesh_priority: 10
+  runtime_enforced: true
+  boot_blocker: true
+  mesh_scope: global
+
+vscode:
+  task_group: test
+  problem_matcher: "$tsc"
+  status_bar:
+    text: "$(beaker) QA"
+    tooltip: "QA Engineer — Ria Vasquez"
+    priority: 90

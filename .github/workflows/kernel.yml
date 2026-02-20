@@ -1,0 +1,100 @@
+name: TSSAS Kernel CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  mesh-boot:
+    name: "Mesh Boot"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.15.5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: pnpm Exclusivity Check
+        run: |
+          if [[ -f "package-lock.json" || -f "yarn.lock" || -f "bun.lockb" ]]; then
+            echo "❌ Forbidden package manager lockfile"
+            exit 1
+          fi
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Mesh Boot
+        run: npx tsx engine/mesh/boot.ts
+
+  validate:
+    name: "Validate"
+    needs: mesh-boot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 9.15.5 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - name: Mesh Boot + Validate
+        run: |
+          npx tsx engine/mesh/boot.ts
+          pnpm run validate:all
+
+  build:
+    name: "Build Packs"
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 9.15.5 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - name: Mesh Boot + Build
+        run: |
+          npx tsx engine/mesh/boot.ts
+          pnpm run build:packs
+
+  test:
+    name: "Test"
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 9.15.5 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - name: Run Tests
+        run: pnpm test
+
+  doctor:
+    name: "Doctor"
+    needs: [validate, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 9.15.5 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - name: Mesh Boot + Doctor
+        run: |
+          npx tsx engine/mesh/boot.ts
+          pnpm run doctor

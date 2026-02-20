@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://topshelf.software/schemas/execution-persona.schema.json",
+  "title": "ExecutionPersona",
+  "description": "Runtime mesh actor derived from governance persona. Must be callable, capability-bound, and mesh-registered.",
+  "type": "object",
+  "required": [
+    "id",
+    "derived_from",
+    "version",
+    "persona",
+    "execution"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9\\-]+$",
+      "description": "Unique execution persona identifier (kebab-case)"
+    },
+    "derived_from": {
+      "type": "string",
+      "description": "ID of the governance persona this execution persona derives from"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semver version of this execution persona"
+    },
+    "persona": {
+      "type": "object",
+      "required": ["name", "title", "role_type"],
+      "properties": {
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "role_type": {
+          "type": "string",
+          "enum": ["validator", "compiler", "monitor", "enforcer", "router"]
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "capabilities",
+        "invoke_mode",
+        "mesh_priority",
+        "runtime_enforced",
+        "boot_blocker",
+        "mesh_scope"
+      ],
+      "properties": {
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "handler", "timeout_ms"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9\\-\\.]+$"
+              },
+              "name": { "type": "string" },
+              "handler": {
+                "type": "string",
+                "description": "Path to handler module relative to engine/"
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "minimum": 1000,
+                "maximum": 300000
+              },
+              "retry": {
+                "type": "object",
+                "properties": {
+                  "max_attempts": { "type": "integer", "minimum": 0, "maximum": 5 },
+                  "backoff_ms": { "type": "integer", "minimum": 100 }
+                }
+              },
+              "depends_on": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Capability IDs that must complete before this one runs"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "invoke_mode": {
+          "type": "string",
+          "enum": ["sync", "async", "event-driven"],
+          "description": "How this persona is called by the mesh router"
+        },
+        "mesh_priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Boot order priority. 0 = first, 100 = last"
+        },
+        "runtime_enforced": {
+          "type": "boolean",
+          "description": "If true, mesh boot fails when this persona is missing"
+        },
+        "boot_blocker": {
+          "type": "boolean",
+          "description": "If true AND validation fails, mesh boot terminates process"
+        },
+        "mesh_scope": {
+          "type": "string",
+          "enum": ["global", "package", "file"],
+          "description": "Scope of mesh registration"
+        }
+      }
+    },
+    "vscode": {
+      "type": "object",
+      "description": "VS Code integration configuration",
+      "properties": {
+        "task_group": {
+          "type": "string",
+          "enum": ["build", "test", "mesh", "governance"],
+          "description": "VS Code task group this persona's capabilities belong to"
+        },
+        "problem_matcher": {
+          "type": "string",
+          "description": "VS Code problem matcher pattern for output parsing"
+        },
+        "status_bar": {
+          "type": "object",
+          "properties": {
+            "text": { "type": "string" },
+            "tooltip": { "type": "string" },
+            "priority": { "type": "integer" }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

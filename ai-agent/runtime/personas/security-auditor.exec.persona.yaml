@@ -1,0 +1,61 @@
+id: security-auditor-exec
+derived_from: security-auditor
+version: "1.0.0"
+
+persona:
+  name: "Kai Oduya"
+  title: "Application Security Lead"
+  role_type: enforcer
+
+execution:
+  capabilities:
+    - id: security.deps.audit
+      name: "Dependency Audit"
+      handler: "validators/dep-audit.ts"
+      timeout_ms: 30000
+      retry:
+        max_attempts: 2
+        backoff_ms: 2000
+      depends_on: []
+
+    - id: security.secrets.scan
+      name: "Secret Scanning"
+      handler: "validators/secret-scan.ts"
+      timeout_ms: 15000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+    - id: security.license.check
+      name: "License Compliance"
+      handler: "validators/license-check.ts"
+      timeout_ms: 20000
+      retry:
+        max_attempts: 1
+        backoff_ms: 1000
+      depends_on:
+        - security.deps.audit
+
+    - id: security.injection.scan
+      name: "Command Injection Detection"
+      handler: "validators/injection-scan.ts"
+      timeout_ms: 15000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+  invoke_mode: sync
+  mesh_priority: 5
+  runtime_enforced: true
+  boot_blocker: true
+  mesh_scope: global
+
+vscode:
+  task_group: governance
+  problem_matcher: "$tsc"
+  status_bar:
+    text: "$(lock) Security"
+    tooltip: "Security Auditor — Kai Oduya"
+    priority: 95

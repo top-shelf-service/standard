@@ -1,0 +1,72 @@
+id: governance-guardian-exec
+derived_from: governance-guardian
+version: "1.0.0"
+
+persona:
+  name: "Morgan Blackwell"
+  title: "Principal Governance Architect"
+  role_type: validator
+
+execution:
+  capabilities:
+    - id: governance.version.check
+      name: "Version Consistency Check"
+      handler: "validators/version-check.ts"
+      timeout_ms: 10000
+      retry:
+        max_attempts: 1
+        backoff_ms: 500
+      depends_on: []
+
+    - id: governance.inheritance.validate
+      name: "Inheritance Direction Validation"
+      handler: "validators/inheritance-check.ts"
+      timeout_ms: 15000
+      retry:
+        max_attempts: 1
+        backoff_ms: 500
+      depends_on: []
+
+    - id: governance.stubs.enforce
+      name: "No-Stubs Policy Enforcement"
+      handler: "validators/stub-check.ts"
+      timeout_ms: 10000
+      retry:
+        max_attempts: 0
+        backoff_ms: 100
+      depends_on: []
+
+    - id: governance.breaking.detect
+      name: "Breaking Change Detection"
+      handler: "validators/breaking-change.ts"
+      timeout_ms: 30000
+      retry:
+        max_attempts: 2
+        backoff_ms: 1000
+      depends_on:
+        - governance.version.check
+
+    - id: governance.checkpoint.create
+      name: "Checkpoint Creation"
+      handler: "mesh/checkpoint.ts"
+      timeout_ms: 20000
+      retry:
+        max_attempts: 1
+        backoff_ms: 2000
+      depends_on:
+        - governance.version.check
+        - governance.stubs.enforce
+
+  invoke_mode: sync
+  mesh_priority: 0
+  runtime_enforced: true
+  boot_blocker: true
+  mesh_scope: global
+
+vscode:
+  task_group: governance
+  problem_matcher: "$tsc"
+  status_bar:
+    text: "$(shield) Governance"
+    tooltip: "Governance Guardian — Morgan Blackwell"
+    priority: 100

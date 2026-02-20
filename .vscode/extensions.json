@@ -2,8 +2,14 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
+    "redhat.vscode-yaml",
+    "bierner.markdown-mermaid",
+    "vitest.explorer",
+    "github.copilot",
+    "github.copilot-chat",
     "ms-vscode.vscode-typescript-next",
     "streetsidesoftware.code-spell-checker",
     "yzhang.markdown-all-in-one"
-  ]
+  ],
+  "unwantedRecommendations": []
 }

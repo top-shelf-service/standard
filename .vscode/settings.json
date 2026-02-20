@@ -5,7 +5,32 @@
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "files.exclude": {
+    "node_modules": true,
+    "dist": true,
+    ".agent-cache": true
+  },
+  "search.exclude": {
+    "node_modules": true,
+    "dist": true,
+    "pnpm-lock.yaml": true
+  },
+  "yaml.schemas": {
+    "ai-agent/schema/execution-persona.schema.json": "ai-agent/runtime/personas/*.exec.persona.yaml"
+  },
+  "task.autoDetect": "off",
+  "testing.automaticallyOpenPeekView": "failureVisible",
   "[markdown]": {
     "files.trimTrailingWhitespace": false
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   }
 }
