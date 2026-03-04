@@ -124,9 +124,15 @@ sync_main() {
     fi
   done
 
-  git fetch origin main
+  if ! git fetch origin main; then
+    echo "❌ Unable to fetch main from origin."
+    return 1
+  fi
   for branch in "${branches[@]}"; do
-    git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"
+    if ! git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"; then
+      echo "❌ Unable to fetch branch from origin: $branch"
+      return 1
+    fi
   done
   if git show-ref --verify --quiet refs/heads/main; then
     git checkout main
@@ -142,28 +148,37 @@ sync_main() {
       return 1
     fi
 
-    local range="main..origin/$branch"
-    if [[ -z "$(git rev-list "$range")" ]]; then
+    local pending_commits=()
+    mapfile -t pending_commits < <(git cherry main "origin/$branch" | awk '/^\+ / { print $2 }')
+    if [[ ${#pending_commits[@]} -eq 0 ]]; then
       echo "ℹ️ No new commits to cherry-pick from $branch"
       continue
     fi
 
-    if ! git cherry-pick "$range"; then
+    if ! git cherry-pick "${pending_commits[@]}"; then
       git cherry-pick --abort || true
-      echo "❌ Conflict while cherry-picking $branch. Cherry-pick aborted."
+      echo "❌ Conflict while cherry-picking $branch. Cherry-pick aborted. Resolve conflicts and retry."
       return 1
     fi
 
     if [[ "$delete_clean" == "true" ]]; then
-      if [[ -z "$(git rev-list "main..origin/$branch")" ]]; then
-        git push origin --delete "$branch"
+      local remaining_commits=()
+      mapfile -t remaining_commits < <(git cherry main "origin/$branch" | awk '/^\+ / { print $2 }')
+      if [[ ${#remaining_commits[@]} -eq 0 ]]; then
+        if ! git push origin --delete "$branch"; then
+          echo "❌ Failed to delete branch on origin: $branch"
+          return 1
+        fi
       else
-        echo "ℹ️ Skipping delete for $branch (branch still has commits not in main)."
+        echo "ℹ️ Skipping delete for $branch (branch still has commits not yet applied to main)."
       fi
     fi
   done
 
-  git push origin main
+  if ! git push origin main; then
+    echo "❌ Failed to push updated main. Re-run after syncing with origin/main."
+    return 1
+  fi
   echo "✅ Main updated from requested branches."
 }
 
