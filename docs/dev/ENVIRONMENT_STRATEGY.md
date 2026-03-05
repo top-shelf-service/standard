@@ -167,6 +167,9 @@ bash scripts/dev/orchestrator.sh diagnose-health
 
 # attempt deterministic triage/fix
 bash scripts/dev/orchestrator.sh triage-fix
+
+# update main by cherry-picking branch commits, then optionally delete clean branches
+bash scripts/dev/orchestrator.sh sync-main <branch1> <branch2> --delete-clean
 ```
 
 ## Solo Task

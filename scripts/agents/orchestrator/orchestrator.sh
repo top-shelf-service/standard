@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
-  echo "Usage: bash scripts/agents/orchestrator/orchestrator.sh <env-sync|activate-test|diagnose-health|triage-fix> [args...]"
+  echo "Usage: bash scripts/agents/orchestrator/orchestrator.sh <env-sync|activate-test|diagnose-health|triage-fix|sync-main> [args...]"
   exit 1
 fi
 
@@ -94,6 +94,93 @@ triage_fix() {
   return 1
 }
 
+sync_main() {
+  local delete_clean="false"
+  local branches=()
+  local arg
+  for arg in "$@"; do
+    if [[ "$arg" == "--delete-clean" ]]; then
+      delete_clean="true"
+    else
+      branches+=("$arg")
+    fi
+  done
+
+  if [[ ${#branches[@]} -eq 0 ]]; then
+    echo "Usage: bash scripts/agents/orchestrator/orchestrator.sh sync-main <branch> [branch...] [--delete-clean]"
+    return 1
+  fi
+
+  if [[ -n "$(git status --porcelain)" ]]; then
+    echo "❌ Working tree is not clean. Commit or stash changes before sync-main."
+    return 1
+  fi
+
+  local branch
+  for branch in "${branches[@]}"; do
+    if ! git check-ref-format --branch "$branch" >/dev/null 2>&1; then
+      echo "❌ Invalid branch name: $branch"
+      return 1
+    fi
+  done
+
+  if ! git fetch origin main; then
+    echo "❌ Unable to fetch main from origin."
+    return 1
+  fi
+  for branch in "${branches[@]}"; do
+    if ! git fetch origin "refs/heads/$branch:refs/remotes/origin/$branch"; then
+      echo "❌ Unable to fetch branch from origin: $branch"
+      return 1
+    fi
+  done
+  if git show-ref --verify --quiet refs/heads/main; then
+    git checkout main
+  else
+    git checkout -b main origin/main
+  fi
+  git pull --ff-only origin main
+
+  for branch in "${branches[@]}"; do
+    log "sync-main cherry-pick branch=$branch"
+    if ! git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+      echo "❌ Missing remote branch: origin/$branch"
+      return 1
+    fi
+
+    local pending_commits=()
+    mapfile -t pending_commits < <(git rev-list --reverse --right-only --cherry-pick main..."origin/$branch")
+    if [[ ${#pending_commits[@]} -eq 0 ]]; then
+      echo "ℹ️ No new commits to cherry-pick from $branch"
+    else
+      if ! git cherry-pick "${pending_commits[@]}"; then
+        git cherry-pick --abort || true
+        echo "❌ Conflict while cherry-picking $branch. Cherry-pick aborted. Resolve conflicts and retry."
+        return 1
+      fi
+    fi
+
+    if [[ "$delete_clean" == "true" ]]; then
+      local remaining_commits=()
+      mapfile -t remaining_commits < <(git rev-list --reverse --right-only --cherry-pick main..."origin/$branch")
+      if [[ ${#remaining_commits[@]} -eq 0 ]]; then
+        if ! git push origin --delete "$branch"; then
+          echo "❌ Failed to delete branch on origin: $branch"
+          return 1
+        fi
+      else
+        echo "ℹ️ Skipping delete for $branch (branch still has commits not yet applied to main)."
+      fi
+    fi
+  done
+
+  if ! git push origin main; then
+    echo "❌ Failed to push updated main. Re-run after syncing with origin/main."
+    return 1
+  fi
+  echo "✅ Main updated from requested branches."
+}
+
 case "$action" in
   env-sync)
     run_env_sync "$@"
@@ -107,9 +194,12 @@ case "$action" in
   triage-fix)
     triage_fix
     ;;
+  sync-main)
+    sync_main "$@"
+    ;;
   *)
     echo "❌ Unknown action: $action"
-    echo "Allowed: env-sync | activate-test | diagnose-health | triage-fix"
+    echo "Allowed: env-sync | activate-test | diagnose-health | triage-fix | sync-main"
     exit 1
     ;;
 esac
