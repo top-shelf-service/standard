@@ -149,21 +149,20 @@ sync_main() {
     fi
 
     local pending_commits=()
-    mapfile -t pending_commits < <(git cherry main "origin/$branch" | awk '/^\+ / { print $2 }')
+    mapfile -t pending_commits < <(git rev-list --reverse --right-only --cherry-pick main..."origin/$branch")
     if [[ ${#pending_commits[@]} -eq 0 ]]; then
       echo "ℹ️ No new commits to cherry-pick from $branch"
-      continue
-    fi
-
-    if ! git cherry-pick "${pending_commits[@]}"; then
-      git cherry-pick --abort || true
-      echo "❌ Conflict while cherry-picking $branch. Cherry-pick aborted. Resolve conflicts and retry."
-      return 1
+    else
+      if ! git cherry-pick "${pending_commits[@]}"; then
+        git cherry-pick --abort || true
+        echo "❌ Conflict while cherry-picking $branch. Cherry-pick aborted. Resolve conflicts and retry."
+        return 1
+      fi
     fi
 
     if [[ "$delete_clean" == "true" ]]; then
       local remaining_commits=()
-      mapfile -t remaining_commits < <(git cherry main "origin/$branch" | awk '/^\+ / { print $2 }')
+      mapfile -t remaining_commits < <(git rev-list --reverse --right-only --cherry-pick main..."origin/$branch")
       if [[ ${#remaining_commits[@]} -eq 0 ]]; then
         if ! git push origin --delete "$branch"; then
           echo "❌ Failed to delete branch on origin: $branch"
